@@ -1,21 +1,30 @@
-"use client"
-import React from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-
+"use client";
+import React from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default function OverviewTab() {
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold">Welcome back, John!</h1>
-        <p className="text-gray-600">Here&apos;s your job application overview</p>
+        <p className="text-gray-600">
+          Here&apos;s your job application overview
+        </p>
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Total Applications</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600">
+              Total Applications
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">24</div>
@@ -24,7 +33,9 @@ export default function OverviewTab() {
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">In Progress</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600">
+              In Progress
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">8</div>
@@ -33,7 +44,9 @@ export default function OverviewTab() {
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Interviews</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600">
+              Interviews
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">3</div>
@@ -42,7 +55,9 @@ export default function OverviewTab() {
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Offers</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600">
+              Offers
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">2</div>
@@ -74,9 +89,18 @@ export default function OverviewTab() {
                 date: "1 week ago",
                 type: "Government",
               },
-              { title: "Product Manager", company: "StartupXYZ", status: "Offer", date: "3 days ago", type: "Private" },
+              {
+                title: "Product Manager",
+                company: "StartupXYZ",
+                status: "Offer",
+                date: "3 days ago",
+                type: "Private",
+              },
             ].map((job, index) => (
-              <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
+              <div
+                key={index}
+                className="flex items-center justify-between p-4 border rounded-lg"
+              >
                 <div>
                   <h3 className="font-semibold">{job.title}</h3>
                   <p className="text-sm text-gray-600">
@@ -103,5 +127,5 @@ export default function OverviewTab() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

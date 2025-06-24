@@ -1,21 +1,27 @@
-"use client"
-import React from "react"
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Briefcase, CheckCircle, FileText, Shield, Bell } from "lucide-react"
+"use client";
+import React from "react";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Briefcase, CheckCircle, FileText, Shield, Bell } from "lucide-react";
 
 export default function HomePage() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   if (isAuthenticated) {
-    return <Dashboard />
+    return <Dashboard />;
   }
 
-  return <LandingPage onAuthenticate={() => setIsAuthenticated(true)} />
+  return <LandingPage onAuthenticate={() => setIsAuthenticated(true)} />;
 }
 
 function LandingPage({ onAuthenticate }: { onAuthenticate: () => void }) {
@@ -48,8 +54,9 @@ function LandingPage({ onAuthenticate }: { onAuthenticate: () => void }) {
             <span className="text-blue-600"> Effortlessly</span>
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Organize and manage your job applications across private and government sectors. Never miss a deadline with
-            smart notifications and comprehensive tracking.
+            Organize and manage your job applications across private and
+            government sectors. Never miss a deadline with smart notifications
+            and comprehensive tracking.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="text-lg px-8 py-3">
@@ -65,7 +72,9 @@ function LandingPage({ onAuthenticate }: { onAuthenticate: () => void }) {
       {/* Features Section */}
       <section id="features" className="py-20 px-4 bg-white">
         <div className="container mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">Powerful Features</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">
+            Powerful Features
+          </h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -73,22 +82,33 @@ function LandingPage({ onAuthenticate }: { onAuthenticate: () => void }) {
               </div>
               <h3 className="text-xl font-semibold mb-2">Job Organization</h3>
               <p className="text-gray-600">
-                Categorize jobs into Private and Government sectors with detailed tracking.
+                Categorize jobs into Private and Government sectors with
+                detailed tracking.
               </p>
             </div>
             <div className="text-center">
               <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Bell className="h-8 w-8 text-green-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Smart Notifications</h3>
-              <p className="text-gray-600">Get email and push notifications for deadlines and status updates.</p>
+              <h3 className="text-xl font-semibold mb-2">
+                Smart Notifications
+              </h3>
+              <p className="text-gray-600">
+                Get email and push notifications for deadlines and status
+                updates.
+              </p>
             </div>
             <div className="text-center">
               <div className="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FileText className="h-8 w-8 text-purple-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Document Management</h3>
-              <p className="text-gray-600">Upload and organize job circulars, admit cards, and other documents.</p>
+              <h3 className="text-xl font-semibold mb-2">
+                Document Management
+              </h3>
+              <p className="text-gray-600">
+                Upload and organize job circulars, admit cards, and other
+                documents.
+              </p>
             </div>
           </div>
         </div>
@@ -101,7 +121,7 @@ function LandingPage({ onAuthenticate }: { onAuthenticate: () => void }) {
         </div>
       </section>
     </div>
-  )
+  );
 }
 
 function AuthTabs({ onAuthenticate }: { onAuthenticate: () => void }) {
@@ -109,7 +129,9 @@ function AuthTabs({ onAuthenticate }: { onAuthenticate: () => void }) {
     <Card>
       <CardHeader>
         <CardTitle className="text-center">Welcome to JobTracker</CardTitle>
-        <CardDescription className="text-center">Sign in to your account or create a new one</CardDescription>
+        <CardDescription className="text-center">
+          Sign in to your account or create a new one
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="signin" className="w-full">
@@ -126,7 +148,7 @@ function AuthTabs({ onAuthenticate }: { onAuthenticate: () => void }) {
         </Tabs>
       </CardContent>
     </Card>
-  )
+  );
 }
 
 function SignInForm({ onAuthenticate }: { onAuthenticate: () => void }) {
@@ -134,17 +156,27 @@ function SignInForm({ onAuthenticate }: { onAuthenticate: () => void }) {
     <form
       className="space-y-4"
       onSubmit={(e) => {
-        e.preventDefault()
-        onAuthenticate()
+        e.preventDefault();
+        onAuthenticate();
       }}
     >
       <div className="space-y-2">
         <Label htmlFor="email">Email</Label>
-        <Input id="email" type="email" placeholder="Enter your email" required />
+        <Input
+          id="email"
+          type="email"
+          placeholder="Enter your email"
+          required
+        />
       </div>
       <div className="space-y-2">
         <Label htmlFor="password">Password</Label>
-        <Input id="password" type="password" placeholder="Enter your password" required />
+        <Input
+          id="password"
+          type="password"
+          placeholder="Enter your password"
+          required
+        />
       </div>
       <Button type="submit" className="w-full">
         Sign In
@@ -155,7 +187,7 @@ function SignInForm({ onAuthenticate }: { onAuthenticate: () => void }) {
         </Button>
       </div>
     </form>
-  )
+  );
 }
 
 function SignUpForm({ onAuthenticate }: { onAuthenticate: () => void }) {
@@ -163,8 +195,8 @@ function SignUpForm({ onAuthenticate }: { onAuthenticate: () => void }) {
     <form
       className="space-y-4"
       onSubmit={(e) => {
-        e.preventDefault()
-        onAuthenticate()
+        e.preventDefault();
+        onAuthenticate();
       }}
     >
       <div className="space-y-2">
@@ -173,25 +205,40 @@ function SignUpForm({ onAuthenticate }: { onAuthenticate: () => void }) {
       </div>
       <div className="space-y-2">
         <Label htmlFor="email">Email</Label>
-        <Input id="email" type="email" placeholder="Enter your email" required />
+        <Input
+          id="email"
+          type="email"
+          placeholder="Enter your email"
+          required
+        />
       </div>
       <div className="space-y-2">
         <Label htmlFor="password">Password</Label>
-        <Input id="password" type="password" placeholder="Create a password" required />
+        <Input
+          id="password"
+          type="password"
+          placeholder="Create a password"
+          required
+        />
       </div>
       <div className="space-y-2">
         <Label htmlFor="confirmPassword">Confirm Password</Label>
-        <Input id="confirmPassword" type="password" placeholder="Confirm your password" required />
+        <Input
+          id="confirmPassword"
+          type="password"
+          placeholder="Confirm your password"
+          required
+        />
       </div>
       <Button type="submit" className="w-full">
         Create Account
       </Button>
     </form>
-  )
+  );
 }
 
 function Dashboard() {
-  const [activeTab, setActiveTab] = useState("overview")
+  const [activeTab, setActiveTab] = useState("overview");
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -263,7 +310,7 @@ function Dashboard() {
         </main>
       </div>
     </div>
-  )
+  );
 }
 
 function OverviewTab() {
@@ -271,14 +318,18 @@ function OverviewTab() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold">Welcome back, John!</h1>
-        <p className="text-gray-600">Here`&apos;`s your job application overview</p>
+        <p className="text-gray-600">
+          Here`&apos;`s your job application overview
+        </p>
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Total Applications</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600">
+              Total Applications
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">24</div>
@@ -287,7 +338,9 @@ function OverviewTab() {
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">In Progress</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600">
+              In Progress
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">8</div>
@@ -296,7 +349,9 @@ function OverviewTab() {
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Interviews</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600">
+              Interviews
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">3</div>
@@ -305,7 +360,9 @@ function OverviewTab() {
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Offers</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600">
+              Offers
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">2</div>
@@ -337,9 +394,18 @@ function OverviewTab() {
                 date: "1 week ago",
                 type: "Government",
               },
-              { title: "Product Manager", company: "StartupXYZ", status: "Offer", date: "3 days ago", type: "Private" },
+              {
+                title: "Product Manager",
+                company: "StartupXYZ",
+                status: "Offer",
+                date: "3 days ago",
+                type: "Private",
+              },
             ].map((job, index) => (
-              <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
+              <div
+                key={index}
+                className="flex items-center justify-between p-4 border rounded-lg"
+              >
                 <div>
                   <h3 className="font-semibold">{job.title}</h3>
                   <p className="text-sm text-gray-600">
@@ -366,30 +432,35 @@ function OverviewTab() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
 
 function JobsTab({ type }: { type: "Private" | "Government" }) {
-  const [showAddForm, setShowAddForm] = useState(false)
+  const [showAddForm, setShowAddForm] = useState(false);
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">{type} Jobs</h1>
-          <p className="text-gray-600">Manage your {type.toLowerCase()} sector applications</p>
+          <p className="text-gray-600">
+            Manage your {type.toLowerCase()} sector applications
+          </p>
         </div>
         <Button onClick={() => setShowAddForm(true)}>Add New Job</Button>
       </div>
 
-      {showAddForm && <AddJobForm type={type} onClose={() => setShowAddForm(false)} />}
+      {showAddForm && (
+        <AddJobForm type={type} onClose={() => setShowAddForm(false)} />
+      )}
 
       {/* Jobs List */}
       <div className="grid gap-4">
         {[
           {
             title: "Senior Software Engineer",
-            company: type === "Private" ? "Google Inc." : "Department of Technology",
+            company:
+              type === "Private" ? "Google Inc." : "Department of Technology",
             location: "San Francisco, CA",
             status: "Applied",
             applyStart: "2024-01-15",
@@ -399,7 +470,8 @@ function JobsTab({ type }: { type: "Private" | "Government" }) {
           },
           {
             title: "Product Manager",
-            company: type === "Private" ? "Microsoft" : "Ministry of Digital Affairs",
+            company:
+              type === "Private" ? "Microsoft" : "Ministry of Digital Affairs",
             location: "Seattle, WA",
             status: "Interview",
             applyStart: "2024-01-10",
@@ -424,10 +496,14 @@ function JobsTab({ type }: { type: "Private" | "Government" }) {
 
                   <div className="flex items-center gap-2 mb-3">
                     {job.hasCircular && (
-                      <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">📄 Circular</span>
+                      <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">
+                        📄 Circular
+                      </span>
                     )}
                     {job.hasAdmitCard && (
-                      <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded">🎫 Admit Card</span>
+                      <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded">
+                        🎫 Admit Card
+                      </span>
                     )}
                   </div>
                 </div>
@@ -461,7 +537,7 @@ function JobsTab({ type }: { type: "Private" | "Government" }) {
         ))}
       </div>
     </div>
-  )
+  );
 }
 
 function AddJobForm({ type, onClose }: { type: string; onClose: () => void }) {
@@ -469,7 +545,9 @@ function AddJobForm({ type, onClose }: { type: string; onClose: () => void }) {
     <Card>
       <CardHeader>
         <CardTitle>Add New {type} Job</CardTitle>
-        <CardDescription>Fill in the details for your job application</CardDescription>
+        <CardDescription>
+          Fill in the details for your job application
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <form className="space-y-4">
@@ -530,7 +608,7 @@ function AddJobForm({ type, onClose }: { type: string; onClose: () => void }) {
         </form>
       </CardContent>
     </Card>
-  )
+  );
 }
 
 function NotificationsTab() {
@@ -538,20 +616,26 @@ function NotificationsTab() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold">Notifications</h1>
-        <p className="text-gray-600">Manage your notification preferences and view recent alerts</p>
+        <p className="text-gray-600">
+          Manage your notification preferences and view recent alerts
+        </p>
       </div>
 
       {/* Notification Settings */}
       <Card>
         <CardHeader>
           <CardTitle>Notification Settings</CardTitle>
-          <CardDescription>Configure how you want to receive notifications</CardDescription>
+          <CardDescription>
+            Configure how you want to receive notifications
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
             <div>
               <h3 className="font-medium">Email Notifications</h3>
-              <p className="text-sm text-gray-600">Receive notifications via email</p>
+              <p className="text-sm text-gray-600">
+                Receive notifications via email
+              </p>
             </div>
             <Button variant="outline" size="sm">
               Enabled
@@ -560,7 +644,9 @@ function NotificationsTab() {
           <div className="flex items-center justify-between">
             <div>
               <h3 className="font-medium">Push Notifications</h3>
-              <p className="text-sm text-gray-600">Receive browser push notifications</p>
+              <p className="text-sm text-gray-600">
+                Receive browser push notifications
+              </p>
             </div>
             <Button variant="outline" size="sm">
               Enabled
@@ -569,7 +655,9 @@ function NotificationsTab() {
           <div className="flex items-center justify-between">
             <div>
               <h3 className="font-medium">Deadline Reminders</h3>
-              <p className="text-sm text-gray-600">Get reminded before application deadlines</p>
+              <p className="text-sm text-gray-600">
+                Get reminded before application deadlines
+              </p>
             </div>
             <Button variant="outline" size="sm">
               Enabled
@@ -588,24 +676,30 @@ function NotificationsTab() {
             {[
               {
                 title: "Application Deadline Reminder",
-                message: "Your application for Senior Developer at Tech Corp expires in 2 days",
+                message:
+                  "Your application for Senior Developer at Tech Corp expires in 2 days",
                 time: "2 hours ago",
                 type: "warning",
               },
               {
                 title: "Interview Scheduled",
-                message: "Interview scheduled for Data Analyst position at Ministry of IT",
+                message:
+                  "Interview scheduled for Data Analyst position at Ministry of IT",
                 time: "1 day ago",
                 type: "info",
               },
               {
                 title: "Application Status Updated",
-                message: "Your application for Product Manager at StartupXYZ has been updated to 'Offer'",
+                message:
+                  "Your application for Product Manager at StartupXYZ has been updated to 'Offer'",
                 time: "3 days ago",
                 type: "success",
               },
             ].map((notification, index) => (
-              <div key={index} className="flex items-start gap-3 p-4 border rounded-lg">
+              <div
+                key={index}
+                className="flex items-start gap-3 p-4 border rounded-lg"
+              >
                 <div
                   className={`w-2 h-2 rounded-full mt-2 ${
                     notification.type === "warning"
@@ -617,8 +711,12 @@ function NotificationsTab() {
                 />
                 <div className="flex-1">
                   <h3 className="font-medium">{notification.title}</h3>
-                  <p className="text-sm text-gray-600 mt-1">{notification.message}</p>
-                  <p className="text-xs text-gray-500 mt-2">{notification.time}</p>
+                  <p className="text-sm text-gray-600 mt-1">
+                    {notification.message}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-2">
+                    {notification.time}
+                  </p>
                 </div>
               </div>
             ))}
@@ -626,5 +724,5 @@ function NotificationsTab() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
