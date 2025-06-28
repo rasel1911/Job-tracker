@@ -22,9 +22,11 @@ const FilterIcon = () => (
 );
 
 export default function JobsPage() {
+  // State to manage selected job type
   const [selectedType, setSelectedType] = useState<"Private" | "Government">(
     "Private",
   );
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">

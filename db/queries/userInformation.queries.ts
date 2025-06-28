@@ -1,5 +1,6 @@
 import { and, eq } from "drizzle-orm";
-import { db } from "../db";
+import { db } from "../connection";
+
 import {
   userInformation,
   type UserInformation,

@@ -1,6 +1,7 @@
-"use client";
 import { Briefcase } from "lucide-react";
 import Link from "next/link";
+import { useSession, signOut } from "next-auth/react";
+import { Button } from "./ui/button";
 
 export default function Header() {
   return (
@@ -17,9 +18,32 @@ export default function Header() {
           <a href="#about" className="text-gray-600 hover:text-gray-900">
             About
           </a>
-          <Link href="/login">Sign In</Link>
+          <AuthButton />
         </nav>
       </div>
     </header>
+  );
+}
+
+function AuthButton() {
+  const { data: session } = useSession();
+
+  if (session) {
+    return (
+      <div className="flex items-center gap-4">
+        <span className="text-gray-700">
+          {session.user?.name || session.user?.email?.split("@")[0]}
+        </span>
+        <Button variant="outline" onClick={() => signOut({ callbackUrl: "/" })}>
+          Sign Out
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <Button asChild>
+      <Link href="/login">Sign In</Link>
+    </Button>
   );
 }
