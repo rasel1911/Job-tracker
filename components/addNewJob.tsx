@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useEdgeStore } from "@/lib/edgestore";
 
 export default function AddJobForm({
   type,
@@ -18,26 +19,65 @@ export default function AddJobForm({
   type: string;
   onClose: () => void;
 }) {
+  const [file, setFile] = useState<File>();
+  const [isUploading, setIsUploading] = useState(false);
+  const { edgestore } = useEdgeStore();
+
   // Submit handler
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     const payload: Record<string, any> = {};
+
+    // Handle file upload if a file is selected
+    let circularFileUrl = data.get("circularFile") as string;
+
+    if (file) {
+      try {
+        setIsUploading(true);
+        const res = await edgestore.publicFiles.upload({
+          file,
+          onProgressChange: (progress) => {
+            console.log("Upload progress:", progress);
+          },
+        });
+        circularFileUrl = res.url;
+      } catch (error) {
+        console.error("File upload failed:", error);
+        alert("File upload failed. Please try again.");
+        setIsUploading(false);
+        return;
+      }
+    }
+
+    // Prepare payload
     data.forEach((value, key) => {
-      payload[key] = value;
+      if (key !== "circularFile") {
+        payload[key] = value;
+      }
     });
 
-    const res = await fetch("/api/add-jobs", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ jobType: type.toLowerCase(), payload }),
-    });
+    // Add the file URL to payload if available
+    if (circularFileUrl) {
+      payload.circularFile = circularFileUrl;
+    }
 
-    if (res.ok) {
-      onClose();
-    } else {
-      // eslint-disable-next-line no-console
-      console.error("Failed to save job", await res.json());
+    try {
+      const res = await fetch("/api/add-jobs", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ jobType: type.toLowerCase(), payload }),
+      });
+
+      if (res.ok) {
+        onClose();
+      } else {
+        console.error("Failed to save job", await res.json());
+      }
+    } catch (error) {
+      console.error("Error saving job:", error);
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -110,13 +150,21 @@ export default function AddJobForm({
                 <Input id="examDate" name="examDate" type="date" />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="circularFile">Circular File (URL)</Label>
-                <Input
-                  id="circularFile"
-                  name="circularFile"
-                  type="url"
-                  placeholder="https://example.com/circular.pdf"
-                />
+                <Label htmlFor="circularFile">Circular File</Label>
+                <div className="flex flex-col space-y-2">
+                  <Input
+                    id="circularFile"
+                    name="circularFile"
+                    type="file"
+                    onChange={(e) => setFile(e.target.files?.[0])}
+                    className="block w-full text-sm text-gray-500"
+                  />
+                  {file && (
+                    <span className="text-sm text-gray-500">
+                      Selected: {file.name} ({(file.size / 1024).toFixed(2)} KB)
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -131,7 +179,9 @@ export default function AddJobForm({
             </div>
 
             <div className="flex gap-2 pt-4">
-              <Button type="submit">Save</Button>
+              <Button type="submit" disabled={isUploading}>
+                {isUploading ? "Uploading..." : "Save"}
+              </Button>
               <Button type="button" variant="outline" onClick={onClose}>
                 Cancel
               </Button>
@@ -212,7 +262,9 @@ export default function AddJobForm({
             </div>
 
             <div className="flex gap-2 pt-4">
-              <Button type="submit">Save</Button>
+              <Button type="submit" disabled={isUploading}>
+                {isUploading ? "Uploading..." : "Save"}
+              </Button>
               <Button type="button" variant="outline" onClick={onClose}>
                 Cancel
               </Button>
