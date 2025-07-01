@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import Loading from "./ui/loading";
+import NotesBox from "./note-box";
 
 interface Job {
   id: string;
@@ -29,6 +30,7 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedCircular, setSelectedCircular] = useState<string | null>(null);
+  const [notes, setNotes] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -141,6 +143,12 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
                   📄 Admit Card
                 </button>
               )}
+              <button
+                onClick={() => setNotes("Notes")}
+                className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded hover:bg-blue-200"
+              >
+                📄 Notes
+              </button>
             </div>
           </div>
 
@@ -192,6 +200,17 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
               />
             )}
           </div>
+        </DialogContent>
+      </Dialog>
+      <Dialog
+        open={!!notes}
+        onOpenChange={(open: boolean) => !open && setNotes(null)}
+      >
+        <DialogContent className="w-[100vw] h-[100vh] max-h-[90vh] flex flex-col">
+          <DialogHeader>
+            <DialogTitle>Notes</DialogTitle>
+          </DialogHeader>
+          <NotesBox />
         </DialogContent>
       </Dialog>
     </>
