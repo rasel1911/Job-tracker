@@ -3,9 +3,11 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import AddJobForm from "@/components/addNewJob";
 import { Jobs } from "@/components/jobs";
+import AIJobAnalysis from "@/components/aiAddJobs";
 
 export default function JobsTab({ type }: { type: "Private" | "Government" }) {
   const [showAddForm, setShowAddForm] = useState(false);
+  const [showAIForm, setShowAIForm] = useState(false);
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -15,11 +17,19 @@ export default function JobsTab({ type }: { type: "Private" | "Government" }) {
             Manage your {type} sector applications
           </p>
         </div>
-        <Button onClick={() => setShowAddForm(true)}>Add New Job</Button>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" onClick={() => setShowAIForm(true)}>
+            AI Analysis
+          </Button>
+          <Button onClick={() => setShowAddForm(true)}>Add New Job</Button>
+        </div>
       </div>
 
       {showAddForm && (
         <AddJobForm type={type} onClose={() => setShowAddForm(false)} />
+      )}
+      {showAIForm && (
+        <AIJobAnalysis type={type} onClose={() => setShowAIForm(false)} />
       )}
 
       {/* Jobs List */}

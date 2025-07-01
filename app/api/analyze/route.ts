@@ -10,6 +10,7 @@ const ExtractedDataSchema = z.object({
   jobTitle: z.string().default("none"),
   email: z.string().email().or(z.literal("none")).default("none"),
   applyDate: z.string().default("none"),
+  location: z.string().default("none"),
 });
 
 type ExtractedData = z.infer<typeof ExtractedDataSchema>;
@@ -42,6 +43,12 @@ function extractStructuredData(text: string): ExtractedData {
   );
   extractedData.applyDate = applyDateMatch ? applyDateMatch[1].trim() : "none";
 
+  // Extract location
+  const locationMatch = text.match(
+    /(?:location|place|area|city|district|division):\s*([a-zA-Z0-9\s.,'&()-]+?)(?:\n|$|\.)/i,
+  );
+  extractedData.location = locationMatch ? locationMatch[1].trim() : "none";
+
   // Validate and return with defaults
   return ExtractedDataSchema.parse(extractedData);
 }
@@ -54,6 +61,7 @@ const EXTRACTION_PROMPT = `
   Job Title: [job position/title]
   Email: [email address]
   Apply Date: [application date]
+  Location: [location]
   
   If any information is not available, write "Not available" for that field.
   Focus on finding:
@@ -78,7 +86,7 @@ export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
     const file = formData.get("image") as File;
-    const message = formData.get("message") as string;
+    const message = "describe this image";
 
     if (!file || !message) {
       return NextResponse.json(
@@ -114,7 +122,7 @@ export async function POST(request: NextRequest) {
     console.log("Extracted company name:", extractedData.companyName);
     return NextResponse.json({
       success: true,
-      analysis: text,
+      analysis: extractedData,
     });
   } catch (error) {
     console.error("Error analyzing image:", error);
