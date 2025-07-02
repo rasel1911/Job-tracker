@@ -1,0 +1,1 @@
+ALTER TABLE "user_files" ALTER COLUMN "type" DROP NOT NULL;

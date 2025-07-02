@@ -15,6 +15,41 @@
       "when": 1750848411992,
       "tag": "0001_wealthy_reaper",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1751448856529,
+      "tag": "0002_shocking_surge",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1751449185837,
+      "tag": "0003_shiny_killraven",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1751449292176,
+      "tag": "0004_mushy_silver_surfer",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1751449604231,
+      "tag": "0005_strange_amphibian",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1751449735020,
+      "tag": "0006_serious_vin_gonzales",
+      "breakpoints": true
     }
   ]
 }
