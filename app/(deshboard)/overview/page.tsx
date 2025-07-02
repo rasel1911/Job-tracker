@@ -1,39 +1,11 @@
 "use client";
-import React from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import React, { useState } from "react";
 import { StatsCards } from "@/components/statsCards";
 
-const jobList = [
-  {
-    title: "Senior Developer",
-    company: "Tech Corp",
-    status: "Applied",
-    date: "2 days ago",
-    type: "Private",
-  },
-  {
-    title: "Data Analyst",
-    company: "Ministry of IT",
-    status: "Interview",
-    date: "1 week ago",
-    type: "Government",
-  },
-  {
-    title: "Product Manager",
-    company: "StartupXYZ",
-    status: "Offer",
-    date: "3 days ago",
-    type: "Private",
-  },
-];
+import RecentJob from "@/components/resentJob";
 
 export default function OverviewTab() {
+  const [jobType, setJobType] = useState<"Private" | "Government">("Private");
   return (
     <div className="space-y-6">
       <div>
@@ -42,45 +14,27 @@ export default function OverviewTab() {
           Here&apos;s your job application overview
         </p>
       </div>
-      <StatsCards />
+      {/* Toggle */}
+      <div className="flex justify-end">
+        <div className="inline-flex rounded-lg border overflow-hidden">
+          {(["Private", "Government"] as const).map((t) => (
+            <button
+              key={t}
+              onClick={() => setJobType(t)}
+              className={`px-4 py-2 text-sm font-medium focus:outline-none ${
+                jobType === t
+                  ? "bg-blue-600 text-white"
+                  : "bg-white text-gray-700"
+              }`}
+            >
+              {t} Job
+            </button>
+          ))}
+        </div>
+      </div>
+      <StatsCards jobType={jobType} />
       {/* Recent Applications */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Recent Applications</CardTitle>
-          <CardDescription>Your latest job applications</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {jobList.map((job, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between p-4 border rounded-lg"
-              >
-                <div>
-                  <h3 className="font-semibold">{job.title}</h3>
-                  <p className="text-sm text-gray-600">
-                    {job.company} • {job.type}
-                  </p>
-                </div>
-                <div className="text-right">
-                  <span
-                    className={`px-2 py-1 rounded-full text-xs ${
-                      job.status === "Applied"
-                        ? "bg-blue-100 text-blue-800"
-                        : job.status === "Interview"
-                          ? "bg-orange-100 text-orange-800"
-                          : "bg-green-100 text-green-800"
-                    }`}
-                  >
-                    {job.status}
-                  </span>
-                  <p className="text-xs text-gray-500 mt-1">{job.date}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+      <RecentJob jobType={jobType} />
     </div>
   );
 }

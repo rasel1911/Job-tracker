@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useEdgeStore } from "@/lib/edgestore";
+import { useFileUpload } from "@/action/uploadUtils";
 
 export default function AddJobForm({
   type,
@@ -21,7 +21,7 @@ export default function AddJobForm({
 }) {
   const [file, setFile] = useState<File>();
   const [isUploading, setIsUploading] = useState(false);
-  const { edgestore } = useEdgeStore();
+  const { uploadFile } = useFileUpload();
 
   // Submit handler
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -35,13 +35,9 @@ export default function AddJobForm({
     if (file) {
       try {
         setIsUploading(true);
-        const res = await edgestore.publicFiles.upload({
-          file,
-          onProgressChange: (progress) => {
-            console.log("Upload progress:", progress);
-          },
+        circularFileUrl = await uploadFile(file, (progress: number) => {
+          console.log("Upload progress:", progress);
         });
-        circularFileUrl = res.url;
       } catch (error) {
         console.error("File upload failed:", error);
         alert("File upload failed. Please try again.");
