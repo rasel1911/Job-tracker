@@ -1,3 +1,4 @@
+// File: db/queries/userFile.queries.ts
 import { db } from "../connection";
 import {
   userFiles,
@@ -31,6 +32,16 @@ export const userFileQueries = {
    */
   async getUserFiles(userId: string): Promise<UserFile[]> {
     return db.select().from(userFiles).where(eq(userFiles.userId, userId));
+  },
+
+  /**
+   * Get all files for a specific user by file type
+   */
+  async getUserFilesByType(userId: string, type: string): Promise<UserFile[]> {
+    return db
+      .select()
+      .from(userFiles)
+      .where(and(eq(userFiles.userId, userId), eq(userFiles.type, type)));
   },
 
   /**

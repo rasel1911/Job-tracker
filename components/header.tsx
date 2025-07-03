@@ -9,13 +9,15 @@ export default function Header() {
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Briefcase className="h-8 w-8 text-blue-600" />
-          <span className="text-2xl font-bold text-gray-900">JobTracker</span>
+          <a href="/" className="text-2xl font-bold text-gray-900">
+            JobTracker
+          </a>
         </div>
         <nav className="hidden md:flex items-center gap-6">
-          <a href="#features" className="text-gray-600 hover:text-gray-900">
+          <a href="/overview" className="text-gray-600 hover:text-gray-900">
             Features
           </a>
-          <a href="#about" className="text-gray-600 hover:text-gray-900">
+          <a href="/about" className="text-gray-600 hover:text-gray-900">
             About
           </a>
           <AuthButton />

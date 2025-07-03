@@ -25,12 +25,23 @@ interface Job {
   hasAdmitCard: string;
 }
 
+interface UserFile {
+  id: string;
+  name: string;
+  imageUrl: string;
+  type: string;
+}
+
 export function Jobs({ type }: { type: "Private" | "Government" }) {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedCircular, setSelectedCircular] = useState<string | null>(null);
   const [notes, setNotes] = useState<string | null>(null);
+  const [selectedResumeJob, setSelectedResumeJob] = useState<Job | null>(null);
+  const [cvFiles, setCvFiles] = useState<UserFile[]>([]);
+  const [cvLoading, setCvLoading] = useState(false);
+  const [cvError, setCvError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -76,6 +87,24 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
 
     fetchJobs();
   }, [type]);
+
+  useEffect(() => {
+    if (selectedResumeJob) {
+      setCvLoading(true);
+      setCvError(null);
+      fetch("/api/cv-find")
+        .then(async (res) => {
+          if (!res.ok) throw new Error("Failed to fetch CV files");
+          const data = await res.json();
+          setCvFiles(data.data || []);
+        })
+        .catch(() => setCvError("Failed to load CV files"))
+        .finally(() => setCvLoading(false));
+    } else {
+      setCvFiles([]);
+      setCvError(null);
+    }
+  }, [selectedResumeJob]);
 
   if (loading) {
     return (
@@ -174,6 +203,15 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
                 Delete
               </Button>
             </div>
+            <div className="mt-3">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setSelectedResumeJob(job)}
+              >
+                <span className="text-xs">Resume Maker</span>
+              </Button>
+            </div>
           </div>
         </div>
       </CardContent>
@@ -213,6 +251,151 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
           <NotesBox />
         </DialogContent>
       </Dialog>
+      <Dialog
+        open={!!selectedResumeJob}
+        onOpenChange={(open: boolean) => !open && setSelectedResumeJob(null)}
+      >
+        <DialogContent className="max-w-lg w-full p-6 rounded-xl shadow-2xl bg-white">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold mb-2">
+              Resume Maker
+            </DialogTitle>
+          </DialogHeader>
+          {selectedResumeJob && (
+            <ResumeMakerDialog
+              job={selectedResumeJob}
+              cvFiles={cvFiles}
+              cvLoading={cvLoading}
+              cvError={cvError}
+              onClose={() => setSelectedResumeJob(null)}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </>
+  );
+}
+
+// ResumeMakerDialog component
+function ResumeMakerDialog({
+  job,
+  cvFiles,
+  cvLoading,
+  cvError,
+  onClose,
+}: {
+  job: Job;
+  cvFiles: UserFile[];
+  cvLoading: boolean;
+  cvError: string | null;
+  onClose: () => void;
+}) {
+  const [selectedCV, setSelectedCV] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
+  const [submitting, setSubmitting] = useState(false);
+  const [result, setResult] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async () => {
+    if (!selectedCV || !message) {
+      setError("Please select a CV and enter a message.");
+      return;
+    }
+    setSubmitting(true);
+    setError(null);
+    setResult(null);
+    try {
+      const selectedFile = cvFiles.find((f) => f.id === selectedCV);
+      const files = selectedFile
+        ? [
+            {
+              name: selectedFile.name,
+              type: selectedFile.type === "pdf" ? "pdf" : "image",
+              content: selectedFile.imageUrl,
+            },
+          ]
+        : [];
+      const res = await fetch("/api/cover-letter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          files,
+          message: `Job URL: ${job.hasCircular}\n${message}`,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setResult(data.data);
+      } else {
+        setError(data.error || "Failed to generate cover letter.");
+      }
+    } catch (e) {
+      setError("Failed to generate cover letter.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="space-y-4">
+      <div>
+        <span className="font-semibold">Job:</span>{" "}
+        <span className="text-gray-700">{job.title}</span>
+      </div>
+      <div>
+        <label className="block font-semibold mb-1">Select your CV:</label>
+        {cvLoading ? (
+          <div>Loading CV files...</div>
+        ) : cvError ? (
+          <div className="text-red-500">{cvError}</div>
+        ) : cvFiles.length === 0 ? (
+          <div>No CV files found.</div>
+        ) : (
+          <select
+            className="w-full border rounded px-3 py-2 focus:outline-none focus:ring"
+            value={selectedCV}
+            onChange={(e) => setSelectedCV(e.target.value)}
+          >
+            <option value="">Select a CV file</option>
+            {cvFiles.map((file) => (
+              <option key={file.id} value={file.id}>
+                {file.name}
+              </option>
+            ))}
+          </select>
+        )}
+      </div>
+      <div>
+        <label className="block font-semibold mb-1">Message:</label>
+        <textarea
+          className="w-full border rounded px-3 py-2 focus:outline-none focus:ring"
+          rows={3}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="Write your message or cover letter instructions..."
+        />
+      </div>
+      {error && <div className="text-red-500">{error}</div>}
+      <div className="flex items-center gap-2">
+        <Button
+          onClick={handleSubmit}
+          disabled={submitting || cvLoading || !cvFiles.length}
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        >
+          {submitting ? "Submitting..." : "Submit"}
+        </Button>
+        <Button variant="outline" onClick={onClose}>
+          Close
+        </Button>
+      </div>
+      {result && (
+        <div className="mt-4 p-3 bg-gray-100 rounded border max-h-60 overflow-auto">
+          <div className="font-semibold mb-2">AI Response:</div>
+          <pre className="whitespace-pre-wrap text-sm text-gray-800">
+            {result}
+          </pre>
+        </div>
+      )}
+    </div>
   );
 }
