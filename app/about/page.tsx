@@ -9,13 +9,13 @@ import FileUpload from "@/components/about/fileupload";
 import FileDisplay from "@/components/about/filedisplay";
 import Modal from "@/components/about/modal";
 import type { UploadedFile } from "@/components/about/fileupload";
-
+import { useFileUpload } from "@/action/uploadUtils";
+import Loading from "@/components/ui/loading"; // Assuming you have a loading component
 import { User, FileText } from "lucide-react";
 
 // -----------------------------
 // Utility Functions
 // -----------------------------
-const generateId = () => crypto.randomUUID();
 
 const formatFileSize = (bytes: number): string => {
   if (bytes === 0) return "0 Bytes";
@@ -32,15 +32,17 @@ export default function UserDashboard() {
   // State
   const [activeTab, setActiveTab] = useState("files");
   const [files, setFiles] = useState<UploadedFile[]>([]);
+  const [loading, setLoading] = useState(false);
 
   // Modal states
-
   const [fileModal, setFileModal] = useState<{
     open: boolean;
     file: File | null;
     type: UploadedFile["type"] | null;
     name: string;
   }>({ open: false, file: null, type: null, name: "" });
+
+  const { uploadFile } = useFileUpload();
 
   const handleFileSelect = useCallback(
     (file: File, type: UploadedFile["type"]) => {
@@ -54,20 +56,43 @@ export default function UserDashboard() {
     [],
   );
 
-  const handleFileUpload = () => {
+  const handleFileUpload = async () => {
     if (!fileModal.file || !fileModal.type) return;
-
-    const newFile: UploadedFile = {
-      id: generateId(),
-      name: fileModal.name.trim() || fileModal.file.name,
-      url: URL.createObjectURL(fileModal.file),
-      type: fileModal.type,
-      size: fileModal.file.size,
-      uploadDate: new Date(),
-    };
-
-    setFiles((prev) => [...prev, newFile]);
-    setFileModal({ open: false, file: null, type: null, name: "" });
+    try {
+      setLoading(true);
+      // Upload file to EdgeStore and get URL
+      const url = await uploadFile(fileModal.file);
+      // Map UI type to backend enum
+      let backendType: "cv_file" | "photo" | "others_file" = "others_file";
+      if (fileModal.type === "cv") backendType = "cv_file";
+      else if (fileModal.type === "photo") backendType = "photo";
+      // Save file metadata to backend
+      const res = await fetch("/api/file-save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: fileModal.name.trim() || fileModal.file.name,
+          type: backendType,
+          imageUrl: url,
+        }),
+      });
+      if (!res.ok) throw new Error("Failed to save file metadata");
+      const { file: savedFile } = await res.json();
+      const newFile: UploadedFile = {
+        id: savedFile.id,
+        name: savedFile.name,
+        url: savedFile.imageUrl,
+        type: fileModal.type,
+        size: fileModal.file.size,
+        uploadDate: new Date(savedFile.createdAt),
+      };
+      setFiles((prev) => [...prev, newFile]);
+      setFileModal({ open: false, file: null, type: null, name: "" });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const tabs = [
@@ -96,19 +121,21 @@ export default function UserDashboard() {
         {activeTab === "overview" && <PersonalInfo />}
 
         {activeTab === "files" && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="space-y-8"
-          >
-            <FileUpload onFileSelect={handleFileSelect} />
-            <FileDisplay
-              files={files}
-              onRemove={(id) =>
-                setFiles((prev) => prev.filter((f) => f.id !== id))
-              }
-            />
-          </motion.div>
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="space-y-8"
+            >
+              <FileUpload onFileSelect={handleFileSelect} />
+              <FileDisplay
+                files={files}
+                onRemove={(id) =>
+                  setFiles((prev) => prev.filter((f) => f.id !== id))
+                }
+              />
+            </motion.div>
+          </>
         )}
 
         <Modal
@@ -119,6 +146,7 @@ export default function UserDashboard() {
           title={`Upload ${fileModal.type === "cv" ? "CV" : fileModal.type === "photo" ? "Photo" : "File"}`}
         >
           <div className="space-y-4">
+            {loading && (loading ? <Loading /> : null)}
             <Input
               label="File Name"
               value={fileModal.name}
@@ -141,7 +169,17 @@ export default function UserDashboard() {
                 </p>
               </div>
             )}
-            <select>
+            <select
+              value={fileModal.type || ""}
+              onChange={(e) =>
+                setFileModal((prev) => ({
+                  ...prev,
+                  type: e.target.value as UploadedFile["type"],
+                }))
+              }
+              required
+            >
+              <option value="">Select Type</option>
               <option value="cv">CV</option>
               <option value="photo">Photo</option>
               <option value="file">File</option>
