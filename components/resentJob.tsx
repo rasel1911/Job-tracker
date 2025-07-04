@@ -118,7 +118,9 @@ export default function RecentJob({
           </div>
         </CardContent>
       )}
-      ;
+      {error && (
+        <CardContent className="text-red-500 text-sm">{error}</CardContent>
+      )}
     </Card>
   );
 }

@@ -1,49 +1,64 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const jobList = [
-  {
-    id: "1",
-    title: "Software Engineer",
-    company: "Tech Solutions",
-    location: "New York, NY",
-    status: "Applied",
-    type: "Private",
-  },
-  {
-    id: "2",
-    title: "Data Analyst",
-    company: "Data Corp",
-    location: "San Francisco, CA",
-    status: "Interview",
-    type: "Private",
-  },
-  {
-    id: "3",
-    title: "Project Manager",
-    company: "Global Enterprises",
-    location: "Chicago, IL",
-    status: "Offer",
-    type: "Government",
-  },
-  {
-    id: "4",
-    title: "Web Developer",
-    company: "Web Innovations",
-    location: "Austin, TX",
-    status: "Applied",
-    type: "Private",
-  },
-  // Add more jobs as needed
-];
+interface Job {
+  id: string;
+  title: string;
+  company: string;
+  location: string;
+  status: string;
+  type: "Private" | "Government";
+}
 
 export function StatsCards({ jobType }: { jobType: "Private" | "Government" }) {
-  const filtered = jobList.filter((j) => j.type === jobType);
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchJobs() {
+      setLoading(true);
+      try {
+        const res = await fetch("/api/show-jobs");
+        const result = await res.json();
+        let allJobs: Job[] = [];
+        if (result.data) {
+          if (Array.isArray(result.data)) {
+            // If API returns a flat array (shouldn't, but fallback)
+            allJobs = result.data;
+          } else {
+            // API returns { privateJobs, governmentJobs }
+            allJobs = [
+              ...(result.data.privateJobs || []).map((j: any) => ({
+                ...j,
+                type: "Private",
+              })),
+              ...(result.data.governmentJobs || []).map((j: any) => ({
+                ...j,
+                type: "Government",
+              })),
+            ];
+          }
+        }
+        setJobs(allJobs);
+      } catch (e) {
+        setJobs([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchJobs();
+  }, []);
+
+  const filtered = jobs.filter((j) => j.type === jobType);
   const total = filtered.length;
   const inProgress = filtered.filter((j) => j.status === "Applied").length;
   const interviews = filtered.filter((j) => j.status === "Interview").length;
   const offers = filtered.filter((j) => j.status === "Offer").length;
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -55,7 +70,7 @@ export function StatsCards({ jobType }: { jobType: "Private" | "Government" }) {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{total}</div>
-          <p className="text-xs text-green-600">+2 this week</p>
+          <p className="text-xs text-green-600">&nbsp;</p>
         </CardContent>
       </Card>
       <Card>
