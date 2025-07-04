@@ -2,7 +2,41 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-import { jobList } from "./resentJob";
+const jobList = [
+  {
+    id: "1",
+    title: "Software Engineer",
+    company: "Tech Solutions",
+    location: "New York, NY",
+    status: "Applied",
+    type: "Private",
+  },
+  {
+    id: "2",
+    title: "Data Analyst",
+    company: "Data Corp",
+    location: "San Francisco, CA",
+    status: "Interview",
+    type: "Private",
+  },
+  {
+    id: "3",
+    title: "Project Manager",
+    company: "Global Enterprises",
+    location: "Chicago, IL",
+    status: "Offer",
+    type: "Government",
+  },
+  {
+    id: "4",
+    title: "Web Developer",
+    company: "Web Innovations",
+    location: "Austin, TX",
+    status: "Applied",
+    type: "Private",
+  },
+  // Add more jobs as needed
+];
 
 export function StatsCards({ jobType }: { jobType: "Private" | "Government" }) {
   const filtered = jobList.filter((j) => j.type === jobType);

@@ -34,7 +34,7 @@ export default function OverviewTab() {
       </div>
       <StatsCards jobType={jobType} />
       {/* Recent Applications */}
-      <RecentJob jobType={jobType} />
+      <RecentJob type={jobType} />
     </div>
   );
 }

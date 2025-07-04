@@ -109,7 +109,7 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
   if (loading) {
     return (
       <Card>
-        <CardContent className="p-6">
+        <CardContent className="flex items-center justify-center p-4">
           <Loading />
         </CardContent>
       </Card>
