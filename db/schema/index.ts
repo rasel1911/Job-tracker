@@ -3,3 +3,6 @@ export * from "./privateJobs.schema";
 export * from "./govtJobs.schema";
 export * from "./userInformation.schema";
 export * from "./userFile.schema";
+export * from "./academic.schema";
+export * from "./exprience.schema";
+export * from "./skill.schema";

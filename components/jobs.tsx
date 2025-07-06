@@ -42,6 +42,11 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
   const [cvFiles, setCvFiles] = useState<UserFile[]>([]);
   const [cvLoading, setCvLoading] = useState(false);
   const [cvError, setCvError] = useState<string | null>(null);
+  // Edit dialog state
+  const [editJob, setEditJob] = useState<Job | null>(null);
+  const [editForm, setEditForm] = useState<Partial<Job>>({});
+  const [editLoading, setEditLoading] = useState(false);
+  const [editError, setEditError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -196,10 +201,18 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
               {job.status}
             </span>
             <div className="mt-3 space-x-2">
-              <Button variant="outline" size="sm">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleEdit(job)}
+              >
                 Edit
               </Button>
-              <Button variant="outline" size="sm">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleDelete(job)}
+              >
                 Delete
               </Button>
             </div>
@@ -217,10 +230,165 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
       </CardContent>
     </Card>
   );
+
+  // Edit and Delete handlers
+  const handleDelete = async (job: Job) => {
+    if (!window.confirm("Are you sure you want to delete this job?")) return;
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `/api/show-jobs?jobType=${type.toLowerCase()}&jobId=${job.id}`,
+        { method: "DELETE" },
+      );
+      if (!response.ok) throw new Error("Failed to delete job");
+      setJobs((prev) => prev.filter((j) => j.id !== job.id));
+      toast.success("Job deleted successfully");
+    } catch (err) {
+      setError("Failed to delete job. Please try again later.");
+      toast.error("Failed to delete job");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEdit = (job: Job) => {
+    setEditJob(job);
+    setEditForm({ ...job });
+    setEditError(null);
+  };
+
+  const handleEditChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleEditSubmit = async () => {
+    if (!editJob) return;
+    setEditLoading(true);
+    setEditError(null);
+    try {
+      const response = await fetch(
+        `/api/show-jobs?jobType=${type.toLowerCase()}&jobId=${editJob.id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            jobTitle: editForm.title,
+            companyName: editForm.company,
+            location: editForm.location,
+            applyStartDate: editForm.applyStart,
+            applyEndDate: editForm.applyEnd,
+            // Add more fields as needed
+          }),
+        },
+      );
+      if (!response.ok) throw new Error("Failed to update job");
+      const data = await response.json();
+      setJobs((prev) =>
+        prev.map((j) => (j.id === editJob.id ? { ...j, ...editForm } : j)),
+      );
+      setEditJob(null);
+      toast.success("Job updated successfully");
+    } catch (err) {
+      setEditError("Failed to update job. Please try again later.");
+      toast.error("Failed to update job");
+    } finally {
+      setEditLoading(false);
+    }
+  };
+
   return (
     <>
       {jobs.map(renderJobCard)}
-
+      {/* Edit Dialog */}
+      <Dialog
+        open={!!editJob}
+        onOpenChange={(open) => !open && setEditJob(null)}
+      >
+        <DialogContent className="max-w-lg w-full p-6 rounded-xl shadow-2xl bg-white">
+          <DialogHeader>
+            <DialogTitle>Edit Job</DialogTitle>
+          </DialogHeader>
+          {editJob && (
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleEditSubmit();
+              }}
+              className="space-y-4"
+            >
+              <div>
+                <label className="block font-semibold mb-1">Title</label>
+                <input
+                  name="title"
+                  value={editForm.title || ""}
+                  onChange={handleEditChange}
+                  className="w-full border rounded px-3 py-2"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block font-semibold mb-1">Company</label>
+                <input
+                  name="company"
+                  value={editForm.company || ""}
+                  onChange={handleEditChange}
+                  className="w-full border rounded px-3 py-2"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block font-semibold mb-1">Location</label>
+                <input
+                  name="location"
+                  value={editForm.location || ""}
+                  onChange={handleEditChange}
+                  className="w-full border rounded px-3 py-2"
+                  required
+                />
+              </div>
+              <div className="flex gap-2">
+                <div className="flex-1">
+                  <label className="block font-semibold mb-1">
+                    Apply Start
+                  </label>
+                  <input
+                    name="applyStart"
+                    type="date"
+                    value={editForm.applyStart || ""}
+                    onChange={handleEditChange}
+                    className="w-full border rounded px-3 py-2"
+                    required
+                  />
+                </div>
+                <div className="flex-1">
+                  <label className="block font-semibold mb-1">Apply End</label>
+                  <input
+                    name="applyEnd"
+                    type="date"
+                    value={editForm.applyEnd || ""}
+                    onChange={handleEditChange}
+                    className="w-full border rounded px-3 py-2"
+                    required
+                  />
+                </div>
+              </div>
+              {editError && <div className="text-red-500">{editError}</div>}
+              <div className="flex items-center gap-2">
+                <Button
+                  type="submit"
+                  disabled={editLoading}
+                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                >
+                  {editLoading ? "Saving..." : "Save"}
+                </Button>
+                <Button variant="outline" onClick={() => setEditJob(null)}>
+                  Cancel
+                </Button>
+              </div>
+            </form>
+          )}
+        </DialogContent>
+      </Dialog>
       <Dialog
         open={!!selectedCircular}
         onOpenChange={(open: boolean) => !open && setSelectedCircular(null)}
