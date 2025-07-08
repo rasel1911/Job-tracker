@@ -16,7 +16,7 @@ export default function RootLayout({
   if (pathname?.includes("jobs")) activeTab = "jobs";
   else if (pathname?.includes("notifications")) activeTab = "notifications";
   else if (pathname?.includes("overview")) activeTab = "overview";
-
+  else if (pathname?.includes("job-dashboard")) activeTab = "job-dashboard";
   return (
     <>
       <Header />

@@ -282,7 +282,7 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
         },
       );
       if (!response.ok) throw new Error("Failed to update job");
-      const data = await response.json();
+      await response.json();
       setJobs((prev) =>
         prev.map((j) => (j.id === editJob.id ? { ...j, ...editForm } : j)),
       );

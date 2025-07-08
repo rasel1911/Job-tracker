@@ -17,7 +17,7 @@ export default function Sidebar({ activeTab }: { activeTab: string }) {
           className={`w-full flex items-center px-4 py-2 rounded-md text-left ${activeTab === "jobs" ? "bg-blue-100 text-blue-700" : "hover:bg-gray-100 text-gray-700"}`}
         >
           <Briefcase className="h-4 w-4 mr-2" />
-          Jobs
+          Jobs Add
         </Link>
         <Link
           href="/notifications"
@@ -25,6 +25,13 @@ export default function Sidebar({ activeTab }: { activeTab: string }) {
         >
           <Bell className="h-4 w-4 mr-2" />
           Notifications
+        </Link>
+        <Link
+          href="/job-dashboard"
+          className={`w-full flex items-center px-4 py-2 rounded-md text-left ${activeTab === "job-dashboard" ? "bg-blue-100 text-blue-700" : "hover:bg-gray-100 text-gray-700"}`}
+        >
+          <Briefcase className="h-4 w-4 mr-2" />
+          All Jobs
         </Link>
       </nav>
     </aside>

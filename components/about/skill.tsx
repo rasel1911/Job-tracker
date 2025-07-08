@@ -7,7 +7,7 @@ import { Plus, Pencil, X, Award } from "lucide-react";
 import Input from "@/components/about/ui/input";
 
 interface Skill {
-  id?: string;
+  id: string;
   userId?: string;
   name: string;
   proficiency?: string; // e.g., Beginner, Intermediate, Expert
@@ -169,32 +169,29 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => (
 );
 
 export default function Skill() {
-  const [skills, setSkills] = useState<Skill[]>([]);
+  const [skills, setSkills] = useState<Skill[]>([]); // Start with empty array
   const [skillModal, setSkillModal] = useState(false);
   const [skillForm, setSkillForm] = useState<Skill>({
     id: "",
     name: "",
     proficiency: "",
   });
-  const userId = "e2c85be5-379e-4709-b2fd-dd13b1eb0250"; // Use a string userId for consistency
 
   // Fetch skills on mount
   useEffect(() => {
-    if (!userId) return;
-    fetch(`/api/skills?userId=${userId}`)
+    fetch(`/api/skills`)
       .then((res) => res.json())
       .then((data) => setSkills(Array.isArray(data) ? data : []));
-  }, [userId]);
+  }, []);
 
   // Skill CRUD
   const handleSkillSave = async () => {
-    if (!userId) return;
     if (skillForm.id) {
       // Edit
       const res = await fetch("/api/skills", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...skillForm, id: skillForm.id, userId }),
+        body: JSON.stringify(skillForm),
       });
       const updated = await res.json();
       setSkills((prev) =>
@@ -205,7 +202,10 @@ export default function Skill() {
       const res = await fetch("/api/skills", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...skillForm, userId }),
+        body: JSON.stringify({
+          name: skillForm.name,
+          proficiency: skillForm.proficiency,
+        }),
       });
       const created = await res.json();
       setSkills((prev) => [...prev, created]);
@@ -215,11 +215,10 @@ export default function Skill() {
   };
 
   const handleSkillDelete = async (id: string) => {
-    if (!userId) return;
     await fetch("/api/skills", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, userId }),
+      body: JSON.stringify({ id }),
     });
     setSkills((prev) => prev.filter((s) => s.id !== id));
   };

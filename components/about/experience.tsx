@@ -273,7 +273,7 @@ export default function Experience() {
           <Input
             label="End Date"
             type="date"
-            value={experienceForm.endDate}
+            value={experienceForm.endDate || ""}
             onChange={(value) =>
               setExperienceForm((prev) => ({ ...prev, endDate: value }))
             }
