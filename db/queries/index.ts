@@ -6,3 +6,4 @@ export * from "./userFile.queries";
 export * from "./academic.queries";
 export * from "./exprience.queries";
 export * from "./skill.queries";
+export * from "./jobVacency.queries";

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import Select from "@/components/ui/select";
+import Select from "@/components/about/ui/select";
 import { Plus, Pencil, X, Award } from "lucide-react";
 import Input from "@/components/about/ui/input";
 
