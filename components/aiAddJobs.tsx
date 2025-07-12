@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useFileUpload } from "@/action/uploadUtils";
 
 interface Analysis {
   companyName: string;
@@ -26,6 +27,7 @@ export default function AIJobAnalysis({
   type: string;
   onClose: () => void;
 }) {
+  const { uploadFile } = useFileUpload();
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [analysis, setAnalysis] = useState<Analysis>({
     companyName: "",
@@ -34,16 +36,19 @@ export default function AIJobAnalysis({
     applyDate: "",
     location: "",
   });
-
+  console.log(type);
   const [loading, setLoading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string>("");
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setSelectedImage(file);
-      const url = URL.createObjectURL(file);
-      setPreviewUrl(url);
+      const circularFileUrl = await uploadFile(file, (progress: number) => {
+        console.log("Upload progress:", progress);
+      });
+      console.log("circularFileUrl:", circularFileUrl);
+      setPreviewUrl(circularFileUrl);
     }
   };
 
@@ -63,7 +68,7 @@ export default function AIJobAnalysis({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          jobType: "private", // or "government" based on your needs
+          jobType: "private",
           payload: {
             companyName: analysis.companyName,
             jobTitle: analysis.jobTitle,

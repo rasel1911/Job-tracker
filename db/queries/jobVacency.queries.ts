@@ -22,3 +22,8 @@ export async function getJobVacanciesByOrgId(orgId: number) {
 export async function getJobVacancyByJobId(jobId: number) {
   return db.select().from(jobVacancies).where(eq(jobVacancies.jobId, jobId));
 }
+
+// Create a new job vacancy
+export async function createJobVacancy(data: any) {
+  return db.insert(jobVacancies).values(data).returning();
+}

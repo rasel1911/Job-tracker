@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import AddJobForm from "@/components/addNewJob";
 import { Jobs } from "@/components/jobs";
 import AIJobAnalysis from "@/components/aiAddJobs";
+import AIGovtJobAnalysis from "@/components/AIGovtJobAnalysis";
 
 export default function JobsTab({ type }: { type: "Private" | "Government" }) {
   const [showAddForm, setShowAddForm] = useState(false);
@@ -28,8 +29,11 @@ export default function JobsTab({ type }: { type: "Private" | "Government" }) {
       {showAddForm && (
         <AddJobForm type={type} onClose={() => setShowAddForm(false)} />
       )}
-      {showAIForm && (
+      {showAIForm && type === "Private" && (
         <AIJobAnalysis type={type} onClose={() => setShowAIForm(false)} />
+      )}
+      {showAIForm && type === "Government" && (
+        <AIGovtJobAnalysis type={type} onClose={() => setShowAIForm(false)} />
       )}
 
       {/* Jobs List */}
