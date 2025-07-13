@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
-import { Button } from "@/components/ui/button";
 import { Briefcase, FileText, Bell } from "lucide-react";
 import Header from "@/components/header";
+import Link from "next/link";
 
 export default function LandingPage() {
   return (
@@ -22,12 +22,18 @@ export default function LandingPage() {
             and comprehensive tracking.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="text-lg px-8 py-3">
+            <Link
+              href="/overview"
+              className="text-lg px-8 py-3 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+            >
               Get Started
-            </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 py-3">
+            </Link>
+            <Link
+              href="/watch-demo"
+              className="text-lg px-8 py-3 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+            >
               Watch Demo
-            </Button>
+            </Link>
           </div>
         </div>
       </section>
