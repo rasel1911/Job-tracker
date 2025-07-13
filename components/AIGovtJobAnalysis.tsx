@@ -12,6 +12,7 @@ export default function AIGovtJobAnalysis({
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState("");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -30,6 +31,7 @@ export default function AIGovtJobAnalysis({
     try {
       const formData = new FormData();
       formData.append("image", file);
+      formData.append("message", message);
       // You can add more fields if needed
       const res = await fetch("/api/ai-govtjob", {
         method: "POST",
@@ -56,6 +58,13 @@ export default function AIGovtJobAnalysis({
         accept="image/*,.pdf,application/pdf"
         onChange={handleFileChange}
         className="my-2"
+      />
+      <input
+        type="text"
+        placeholder="Enter a message"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        className="my-2 block w-full border rounded px-2 py-1"
       />
       <Button
         onClick={handleAnalyze}
