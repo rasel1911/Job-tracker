@@ -153,15 +153,17 @@ export default function JobDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+    <div className="min-h-screen bg-gray-900 text-white">
       {/* Header */}
-      <div className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-40">
+      <div className="border-b bg-gray-900/80 backdrop-blur-sm sticky top-0 z-40">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
                 <Briefcase className="h-8 w-8 text-blue-600" />
-                <h1 className="text-2xl font-bold text-gray-900">Job Portal</h1>
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                  Job Portal
+                </h1>
               </div>
             </div>
             <div className="flex items-center space-x-4">
@@ -171,10 +173,13 @@ export default function JobDashboard() {
                   placeholder="Search jobs or organizations..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 w-80"
+                  className="pl-10 w-80 bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
                 />
               </div>
-              <Button variant="outline" size="icon">
+              <Button
+                className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white shadow-lg border-0 transition-all duration-300"
+                size="icon"
+              >
                 <Filter className="h-4 w-4" />
               </Button>
             </div>
@@ -190,10 +195,10 @@ export default function JobDashboard() {
       ) : (
         <div className="container mx-auto px-4 py-8">
           <div className="mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">
+            <h2 className="text-3xl font-bold mb-2 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
               Available Positions
             </h2>
-            <p className="text-gray-600">
+            <p className="text-gray-400">
               Discover your next career opportunity
             </p>
           </div>
@@ -228,28 +233,28 @@ export default function JobDashboard() {
                     return (
                       <Card
                         key={job.jobId}
-                        className="hover:shadow-lg transition-all duration-300 cursor-pointer border-0 shadow-md hover:scale-[1.02]"
+                        className="bg-gray-800/50 border border-gray-700 shadow-lg hover:shadow-cyan-500/10 transition-all duration-300 cursor-pointer hover:scale-[1.02]"
                         onClick={() => setSelectedJob(job)}
                       >
                         <CardHeader className="pb-3">
                           <div className="flex items-start justify-between">
                             <div className="flex-1">
-                              <CardTitle className="text-lg font-semibold text-gray-900 mb-1">
+                              <CardTitle className="text-lg font-semibold mb-1 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
                                 {job.jobTitle}
                               </CardTitle>
-                              <CardDescription className="text-sm text-gray-600">
+                              <CardDescription className="text-sm text-purple-300">
                                 {job.jobTitleBn}
                               </CardDescription>
                             </div>
                             <Badge
-                              variant={
-                                daysRemaining > 7
-                                  ? "default"
-                                  : daysRemaining > 0
-                                    ? "destructive"
-                                    : "secondary"
-                              }
-                              className="ml-2"
+                              className={`ml-2 px-3 py-1 rounded-full text-sm shadow-md transition-all duration-300
+                                ${
+                                  daysRemaining > 7
+                                    ? "bg-gradient-to-r from-cyan-500 to-purple-500 text-white"
+                                    : daysRemaining > 0
+                                      ? "bg-gradient-to-r from-orange-400 to-pink-500 text-white"
+                                      : "bg-gradient-to-r from-red-500 to-pink-500 text-white"
+                                }`}
                             >
                               {daysRemaining > 0
                                 ? `${daysRemaining}d left`
@@ -319,12 +324,12 @@ export default function JobDashboard() {
 
       {/* Job Details Modal */}
       <Dialog open={!!selectedJob} onOpenChange={() => setSelectedJob(null)}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden">
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden bg-gray-900 border border-gray-700 text-white">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-bold text-gray-900">
+            <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
               {selectedJob?.jobTitle}
             </DialogTitle>
-            <DialogDescription className="text-lg text-gray-600">
+            <DialogDescription className="text-lg text-purple-300">
               {selectedJob?.jobTitleBn}
             </DialogDescription>
           </DialogHeader>
@@ -358,7 +363,7 @@ export default function JobDashboard() {
               <ScrollArea className="h-[400px] pr-4">
                 <div className="space-y-6">
                   {/* Organization Info */}
-                  <div className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+                  <div className="flex items-center space-x-4 p-4 bg-gray-800/50 rounded-lg border border-gray-700">
                     <Avatar className="h-16 w-16">
                       <AvatarImage src={`/image.png?height=64&width=64`} />
                       <AvatarFallback className="bg-blue-100 text-blue-600 font-semibold text-lg">
@@ -369,7 +374,7 @@ export default function JobDashboard() {
                       <h3 className="text-xl font-semibold text-gray-900">
                         {selectedJob?.orgName}
                       </h3>
-                      <p className="text-gray-600">Organization</p>
+                      <p className="text-gray-400">Organization</p>
                     </div>
                   </div>
 
@@ -377,7 +382,7 @@ export default function JobDashboard() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-4">
                       <div>
-                        <Label className="text-sm font-medium text-gray-700">
+                        <Label className="text-sm font-medium text-cyan-400">
                           Job Title
                         </Label>
                         <p className="text-lg font-semibold text-gray-900">
@@ -385,52 +390,52 @@ export default function JobDashboard() {
                         </p>
                       </div>
                       <div>
-                        <Label className="text-sm font-medium text-gray-700">
+                        <Label className="text-sm font-medium text-cyan-400">
                           Job Title (Bengali)
                         </Label>
-                        <p className="text-lg text-gray-900">
+                        <p className="text-lg text-purple-300">
                           {selectedJob?.jobTitleBn}
                         </p>
                       </div>
                       <div>
-                        <Label className="text-sm font-medium text-gray-700">
+                        <Label className="text-sm font-medium text-cyan-400">
                           Available Positions
                         </Label>
-                        <p className="text-lg text-gray-900">
+                        <p className="text-lg text-purple-300">
                           {selectedJob?.jobVacancy}
                         </p>
                       </div>
                     </div>
                     <div className="space-y-4">
                       <div>
-                        <Label className="text-sm font-medium text-gray-700">
+                        <Label className="text-sm font-medium text-cyan-400">
                           Application Start Date
                         </Label>
-                        <p className="text-lg text-gray-900">
+                        <p className="text-lg text-purple-300">
                           {selectedJob &&
                             formatDate(selectedJob.applyStartDate)}
                         </p>
                       </div>
                       <div>
-                        <Label className="text-sm font-medium text-gray-700">
+                        <Label className="text-sm font-medium text-cyan-400">
                           Application Deadline
                         </Label>
-                        <p className="text-lg text-gray-900">
+                        <p className="text-lg text-purple-300">
                           {selectedJob && formatDate(selectedJob.applyLastDate)}
                         </p>
                       </div>
                       <div>
-                        <Label className="text-sm font-medium text-gray-700">
+                        <Label className="text-sm font-medium text-cyan-400">
                           Days Remaining
                         </Label>
                         <Badge
-                          variant={
-                            selectedJob &&
-                            getDaysRemaining(selectedJob.applyLastDate) > 7
-                              ? "default"
-                              : "destructive"
-                          }
-                          className="text-sm"
+                          className={`text-sm px-3 py-1 rounded-full shadow-md transition-all duration-300
+                            ${
+                              selectedJob &&
+                              getDaysRemaining(selectedJob.applyLastDate) > 7
+                                ? "bg-gradient-to-r from-cyan-500 to-purple-500 text-white"
+                                : "bg-gradient-to-r from-orange-400 to-pink-500 text-white"
+                            }`}
                         >
                           {selectedJob &&
                           getDaysRemaining(selectedJob.applyLastDate) > 0
@@ -444,14 +449,17 @@ export default function JobDashboard() {
               </ScrollArea>
 
               <div className="flex justify-end space-x-3 pt-4 border-t">
-                <Button variant="outline" onClick={() => setSelectedJob(null)}>
+                <Button
+                  className="bg-gray-800/50 border border-gray-700 text-white hover:bg-gray-700 hover:text-cyan-500 transition-all duration-300"
+                  onClick={() => setSelectedJob(null)}
+                >
                   Close
                 </Button>
                 <Button
                   onClick={() =>
                     selectedJob && handleApply(selectedJob.urlLink)
                   }
-                  className="bg-blue-600 hover:bg-blue-700"
+                  className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white border-0 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all duration-300"
                 >
                   <ExternalLink className="h-4 w-4 mr-2" />
                   Apply Now
@@ -460,7 +468,7 @@ export default function JobDashboard() {
             </TabsContent>
 
             <TabsContent value="document" className="space-y-4">
-              <div className="h-[500px] border rounded-lg overflow-hidden">
+              <div className="h-[500px] border rounded-lg overflow-hidden bg-gray-800/50 border-gray-700">
                 {selectedJob?.fileLink?.link ? (
                   <>
                     <iframe
@@ -470,9 +478,9 @@ export default function JobDashboard() {
                     />
                   </>
                 ) : (
-                  <div className="flex items-center justify-center h-full text-gray-500">
+                  <div className="flex items-center justify-center h-full text-gray-400">
                     <div className="text-center">
-                      <FileText className="h-16 w-16 mx-auto mb-4 text-gray-300" />
+                      <FileText className="h-16 w-16 mx-auto mb-4 text-cyan-400" />
                       <p>No document available {selectedJob?.fileLink?.link}</p>
                     </div>
                   </div>
@@ -484,18 +492,18 @@ export default function JobDashboard() {
               <ScrollArea className="h-[300px] pr-4">
                 <div className="space-y-4">
                   {selectedJob?.comment && (
-                    <div className="p-4 bg-gray-50 rounded-lg">
+                    <div className="p-4 bg-gray-800/50 rounded-lg border border-gray-700">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="font-medium text-gray-900">
+                        <span className="font-medium text-cyan-400">
                           {selectedJob.comment.createdBy}
                         </span>
-                        <span className="text-sm text-gray-500">
+                        <span className="text-sm text-purple-300">
                           {new Date(
                             selectedJob.comment.createdAt,
                           ).toLocaleDateString()}
                         </span>
                       </div>
-                      <p className="text-gray-700">
+                      <p className="text-gray-300">
                         {selectedJob.comment.text}
                       </p>
                     </div>
@@ -504,7 +512,10 @@ export default function JobDashboard() {
               </ScrollArea>
 
               <div className="space-y-3 pt-4 border-t">
-                <Label htmlFor="comment" className="text-sm font-medium">
+                <Label
+                  htmlFor="comment"
+                  className="text-sm font-medium text-cyan-400"
+                >
                   Add a comment
                 </Label>
                 <Textarea
@@ -513,12 +524,20 @@ export default function JobDashboard() {
                   value={newComment}
                   onChange={(e) => setNewComment(e.target.value)}
                   rows={3}
+                  className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
                 />
                 <div className="flex justify-end space-x-2">
-                  <Button variant="outline" size="sm">
+                  <Button
+                    className="bg-gray-800/50 border border-gray-700 text-white hover:bg-gray-700 hover:text-cyan-500 transition-all duration-300"
+                    size="sm"
+                  >
                     Cancel
                   </Button>
-                  <Button size="sm" onClick={handleAddComment}>
+                  <Button
+                    size="sm"
+                    onClick={handleAddComment}
+                    className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white border-0 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all duration-300"
+                  >
                     <MessageSquare className="h-4 w-4 mr-2" />
                     Add Comment
                   </Button>

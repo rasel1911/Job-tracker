@@ -76,10 +76,14 @@ export default function RecentJob({
   }, [type]);
 
   return (
-    <Card>
+    <Card className="bg-gray-800/50 border-2 border-cyan-500/30 shadow-lg shadow-cyan-500/10">
       <CardHeader>
-        <CardTitle>Recent Applications</CardTitle>
-        <CardDescription>Your latest job applications</CardDescription>
+        <CardTitle className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+          Recent Applications
+        </CardTitle>
+        <CardDescription className="text-purple-300">
+          Your latest job applications
+        </CardDescription>
       </CardHeader>
       {loading ? (
         <div className="flex items-center justify-center p-4">
@@ -91,27 +95,29 @@ export default function RecentJob({
             {jobs.map((job, index) => (
               <div
                 key={index}
-                className="flex items-center justify-between p-4 border rounded-lg"
+                className="flex items-center justify-between p-4 border border-gray-700 rounded-lg bg-gray-900/60 shadow shadow-cyan-500/10"
               >
                 <div>
-                  <h3 className="font-semibold">{job.title}</h3>
-                  <p className="text-sm text-gray-600">
+                  <h3 className="font-semibold text-cyan-400 drop-shadow-[0_0_6px_cyan]">
+                    {job.title}
+                  </h3>
+                  <p className="text-sm text-purple-300">
                     {job.company} • {job.location}
                   </p>
                 </div>
                 <div className="text-right">
                   <span
-                    className={`px-2 py-1 rounded-full text-xs ${
+                    className={`px-3 py-1 rounded-full text-xs font-bold shadow shadow-cyan-500/10 ${
                       job.status === "Applied"
-                        ? "bg-blue-100 text-blue-800"
+                        ? "bg-gradient-to-r from-cyan-500 to-purple-500 text-white border border-cyan-400"
                         : job.status === "Interview"
-                          ? "bg-orange-100 text-orange-800"
-                          : "bg-green-100 text-green-800"
+                          ? "bg-gradient-to-r from-pink-500 to-purple-500 text-white border border-pink-400"
+                          : "bg-gradient-to-r from-green-400 to-cyan-400 text-white border border-green-300"
                     }`}
                   >
                     {job.status}
                   </span>
-                  <p className="text-xs text-gray-500 mt-1">{job.applyEnd}</p>
+                  <p className="text-xs text-pink-300 mt-1">{job.applyEnd}</p>
                 </div>
               </div>
             ))}
@@ -119,7 +125,7 @@ export default function RecentJob({
         </CardContent>
       )}
       {error && (
-        <CardContent className="text-red-500 text-sm">{error}</CardContent>
+        <CardContent className="text-pink-400 text-sm">{error}</CardContent>
       )}
     </Card>
   );

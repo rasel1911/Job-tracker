@@ -146,15 +146,20 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
   }
 
   const renderJobCard = (job: Job) => (
-    <Card key={job.id} className="mb-4">
+    <Card
+      key={job.id}
+      className="mb-4 bg-gray-800/50 border border-gray-700 shadow-lg hover:shadow-cyan-500/10 transition-all duration-300"
+    >
       <CardContent className="p-6">
         <div className="flex items-start justify-between">
           <div className="flex-1">
-            <h3 className="text-xl font-semibold mb-2">{job.title}</h3>
-            <p className="text-gray-600 mb-1">{job.company}</p>
-            <p className="text-gray-500 text-sm mb-3">{job.location}</p>
+            <h3 className="text-xl font-semibold mb-2 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+              {job.title}
+            </h3>
+            <p className="text-purple-300 mb-1">{job.company}</p>
+            <p className="text-cyan-300 text-sm mb-3">{job.location}</p>
 
-            <div className="flex items-center gap-4 text-sm text-gray-600 mb-3">
+            <div className="flex items-center gap-4 text-sm text-cyan-400 mb-3">
               <span>
                 Apply: {job.applyStart} to {job.applyEnd}
               </span>
@@ -164,7 +169,7 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
               {job.hasCircular && (
                 <button
                   onClick={() => setSelectedCircular(job.hasCircular)}
-                  className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded hover:bg-blue-200"
+                  className="px-2 py-1 bg-gradient-to-r from-cyan-500 to-purple-500 text-white text-xs rounded shadow-md hover:from-cyan-600 hover:to-purple-600 transition-all duration-300"
                 >
                   📄 Circular
                 </button>
@@ -172,14 +177,14 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
               {job.hasAdmitCard && (
                 <button
                   onClick={() => setSelectedCircular(job.hasAdmitCard)}
-                  className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded hover:bg-blue-200"
+                  className="px-2 py-1 bg-gradient-to-r from-cyan-500 to-purple-500 text-white text-xs rounded shadow-md hover:from-cyan-600 hover:to-purple-600 transition-all duration-300"
                 >
                   📄 Admit Card
                 </button>
               )}
               <button
                 onClick={() => setNotes("Notes")}
-                className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded hover:bg-blue-200"
+                className="px-2 py-1 bg-gradient-to-r from-cyan-500 to-purple-500 text-white text-xs rounded shadow-md hover:from-cyan-600 hover:to-purple-600 transition-all duration-300"
               >
                 📄 Notes
               </button>
@@ -188,28 +193,30 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
 
           <div className="text-right">
             <span
-              className={`px-3 py-1 rounded-full text-sm ${
-                job.status === "Applied"
-                  ? "bg-blue-100 text-blue-800"
-                  : job.status === "Interview"
-                    ? "bg-orange-100 text-orange-800"
-                    : job.status === "Offer"
-                      ? "bg-green-100 text-green-800"
-                      : "bg-red-100 text-red-800"
-              }`}
+              className={`px-3 py-1 rounded-full text-sm shadow-md transition-all duration-300
+    ${
+      job.status === "Applied"
+        ? "bg-gradient-to-r from-cyan-500 to-purple-500 text-white"
+        : job.status === "Interview"
+          ? "bg-gradient-to-r from-orange-400 to-pink-500 text-white"
+          : job.status === "Offer"
+            ? "bg-gradient-to-r from-green-400 to-cyan-500 text-white"
+            : "bg-gradient-to-r from-red-500 to-pink-500 text-white"
+    }
+  `}
             >
               {job.status}
             </span>
             <div className="mt-3 space-x-2">
               <Button
-                variant="outline"
+                className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white shadow-lg border-0 transition-all duration-300"
                 size="sm"
                 onClick={() => handleEdit(job)}
               >
                 Edit
               </Button>
               <Button
-                variant="outline"
+                className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white shadow-lg border-0 transition-all duration-300"
                 size="sm"
                 onClick={() => handleDelete(job)}
               >
@@ -218,7 +225,7 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
             </div>
             <div className="mt-3">
               <Button
-                variant="outline"
+                className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white shadow-lg border-0 transition-all duration-300"
                 size="sm"
                 onClick={() => setSelectedResumeJob(job)}
               >
@@ -306,7 +313,9 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
       >
         <DialogContent className="max-w-lg w-full p-6 rounded-xl shadow-2xl bg-white">
           <DialogHeader>
-            <DialogTitle>Edit Job</DialogTitle>
+            <DialogTitle className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+              Edit Job
+            </DialogTitle>
           </DialogHeader>
           {editJob && (
             <form
@@ -322,7 +331,7 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
                   name="title"
                   value={editForm.title || ""}
                   onChange={handleEditChange}
-                  className="w-full border rounded px-3 py-2"
+                  className="w-full bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 rounded px-3 py-2 focus:border-cyan-500 focus:ring-cyan-500/20"
                   required
                 />
               </div>
@@ -332,7 +341,7 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
                   name="company"
                   value={editForm.company || ""}
                   onChange={handleEditChange}
-                  className="w-full border rounded px-3 py-2"
+                  className="w-full bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 rounded px-3 py-2 focus:border-cyan-500 focus:ring-cyan-500/20"
                   required
                 />
               </div>
@@ -342,7 +351,7 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
                   name="location"
                   value={editForm.location || ""}
                   onChange={handleEditChange}
-                  className="w-full border rounded px-3 py-2"
+                  className="w-full bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 rounded px-3 py-2 focus:border-cyan-500 focus:ring-cyan-500/20"
                   required
                 />
               </div>
@@ -356,7 +365,7 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
                     type="date"
                     value={editForm.applyStart || ""}
                     onChange={handleEditChange}
-                    className="w-full border rounded px-3 py-2"
+                    className="w-full bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 rounded px-3 py-2 focus:border-cyan-500 focus:ring-cyan-500/20"
                     required
                   />
                 </div>
@@ -367,7 +376,7 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
                     type="date"
                     value={editForm.applyEnd || ""}
                     onChange={handleEditChange}
-                    className="w-full border rounded px-3 py-2"
+                    className="w-full bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 rounded px-3 py-2 focus:border-cyan-500 focus:ring-cyan-500/20"
                     required
                   />
                 </div>
@@ -377,11 +386,14 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
                 <Button
                   type="submit"
                   disabled={editLoading}
-                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                  className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white border-0 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 px-4 py-2 rounded transition-all duration-300"
                 >
                   {editLoading ? "Saving..." : "Save"}
                 </Button>
-                <Button variant="outline" onClick={() => setEditJob(null)}>
+                <Button
+                  className="bg-gray-800/50 border border-gray-700 text-white hover:bg-gray-700 hover:text-cyan-500 transition-all duration-300"
+                  onClick={() => setEditJob(null)}
+                >
                   Cancel
                 </Button>
               </div>
@@ -425,7 +437,7 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
       >
         <DialogContent className="max-w-lg w-full p-6 rounded-xl shadow-2xl bg-white">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-bold mb-2">
+            <DialogTitle className="text-2xl font-bold mb-2 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
               Resume Maker
             </DialogTitle>
           </DialogHeader>

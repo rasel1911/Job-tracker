@@ -81,8 +81,10 @@ export default function AddJobForm({
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Add New Private Job</CardTitle>
-          <CardDescription>
+          <CardTitle className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Add New Private Job
+          </CardTitle>
+          <CardDescription className="text-gray-400">
             Fill in the details for your job application
           </CardDescription>
         </CardHeader>
@@ -92,6 +94,7 @@ export default function AddJobForm({
               <div className="space-y-2">
                 <Label htmlFor="jobTitle">Job Title *</Label>
                 <Input
+                  className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
                   id="jobTitle"
                   name="jobTitle"
                   placeholder="e.g. Senior Developer"
@@ -101,6 +104,7 @@ export default function AddJobForm({
               <div className="space-y-2">
                 <Label htmlFor="companyName">Company Name *</Label>
                 <Input
+                  className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
                   id="companyName"
                   name="companyName"
                   placeholder="e.g. Google Inc."
@@ -112,6 +116,7 @@ export default function AddJobForm({
             <div className="space-y-2">
               <Label htmlFor="location">Location *</Label>
               <Input
+                className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
                 id="location"
                 name="location"
                 placeholder="e.g. San Francisco, CA"
@@ -123,6 +128,7 @@ export default function AddJobForm({
               <div className="space-y-2">
                 <Label htmlFor="applyStartDate">Application Start Date *</Label>
                 <Input
+                  className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
                   id="applyStartDate"
                   name="applyStartDate"
                   type="date"
@@ -132,6 +138,7 @@ export default function AddJobForm({
               <div className="space-y-2">
                 <Label htmlFor="applyEndDate">Application End Date *</Label>
                 <Input
+                  className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
                   id="applyEndDate"
                   name="applyEndDate"
                   type="date"
@@ -143,17 +150,22 @@ export default function AddJobForm({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="examDate">Exam Date</Label>
-                <Input id="examDate" name="examDate" type="date" />
+                <Input
+                  className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
+                  id="examDate"
+                  name="examDate"
+                  type="date"
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="circularFile">Circular File</Label>
                 <div className="flex flex-col space-y-2">
                   <Input
+                    className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
                     id="circularFile"
                     name="circularFile"
                     type="file"
                     onChange={(e) => setFile(e.target.files?.[0])}
-                    className="block w-full text-sm text-gray-500"
                   />
                   {file && (
                     <span className="text-sm text-gray-500">
@@ -167,18 +179,27 @@ export default function AddJobForm({
             <div className="space-y-2">
               <Label htmlFor="note">Notes</Label>
               <textarea
+                className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
                 id="note"
                 name="note"
-                className="w-full p-2 border rounded-md min-h-[100px]"
                 placeholder="Any additional notes about this job..."
               />
             </div>
 
             <div className="flex gap-2 pt-4">
-              <Button type="submit" disabled={isUploading}>
+              <Button
+                className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white border-0 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all duration-300"
+                type="submit"
+                disabled={isUploading}
+              >
                 {isUploading ? "Uploading..." : "Save"}
               </Button>
-              <Button type="button" variant="outline" onClick={onClose}>
+              <Button
+                className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white border-0 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all duration-300"
+                type="button"
+                variant="outline"
+                onClick={onClose}
+              >
                 Cancel
               </Button>
             </div>
@@ -198,23 +219,39 @@ export default function AddJobForm({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="jobTitle">Job Title *</Label>
-                <Input id="jobTitle" name="jobTitle" required />
+                <Input
+                  className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
+                  id="jobTitle"
+                  name="jobTitle"
+                  required
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="companyName">Department *</Label>
-                <Input id="companyName" name="companyName" required />
+                <Input
+                  className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
+                  id="companyName"
+                  name="companyName"
+                  required
+                />
               </div>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="location">Location *</Label>
-              <Input id="location" name="location" required />
+              <Input
+                className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
+                id="location"
+                name="location"
+                required
+              />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="applyStartDate">Apply Start *</Label>
                 <Input
+                  className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
                   id="applyStartDate"
                   name="applyStartDate"
                   type="date"
@@ -224,6 +261,7 @@ export default function AddJobForm({
               <div className="space-y-2">
                 <Label htmlFor="applyEndDate">Apply End *</Label>
                 <Input
+                  className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
                   id="applyEndDate"
                   name="applyEndDate"
                   type="date"
@@ -235,33 +273,57 @@ export default function AddJobForm({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="examDate">Exam Date</Label>
-                <Input id="examDate" name="examDate" type="date" />
+                <Input
+                  className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
+                  id="examDate"
+                  name="examDate"
+                  type="date"
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="circularFile">Circular File (URL)</Label>
-                <Input id="circularFile" name="circularFile" type="url" />
+                <Input
+                  className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
+                  id="circularFile"
+                  name="circularFile"
+                  type="url"
+                />
               </div>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="admitCardFile">Admit Card (URL)</Label>
-              <Input id="admitCardFile" name="admitCardFile" type="url" />
+              <Input
+                className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
+                id="admitCardFile"
+                name="admitCardFile"
+                type="url"
+              />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="note">Notes</Label>
               <textarea
+                className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
                 id="note"
                 name="note"
-                className="w-full p-2 border rounded-md min-h-[100px]"
               />
             </div>
 
             <div className="flex gap-2 pt-4">
-              <Button type="submit" disabled={isUploading}>
+              <Button
+                className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white border-0 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all duration-300"
+                type="submit"
+                disabled={isUploading}
+              >
                 {isUploading ? "Uploading..." : "Save"}
               </Button>
-              <Button type="button" variant="outline" onClick={onClose}>
+              <Button
+                className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white border-0 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all duration-300"
+                type="button"
+                variant="outline"
+                onClick={onClose}
+              >
                 Cancel
               </Button>
             </div>

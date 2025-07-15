@@ -7,3 +7,4 @@ export * from "./academic.schema";
 export * from "./exprience.schema";
 export * from "./skill.schema";
 export * from "./jobVacency.schema";
+export * from "./jobBords.schema";

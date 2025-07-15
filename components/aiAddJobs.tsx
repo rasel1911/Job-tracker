@@ -164,8 +164,8 @@ export default function AIJobAnalysis({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
         <div className="sticky top-0 bg-white p-4 border-b border-gray-200 flex justify-between items-center">
-          <h2 className="text-2xl font-bold text-gray-800">
-            AI Image Analysis with Gemini
+          <h2 className="text-2xl font-bold mb-2 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+            AI Job Analysis
           </h2>
           <button
             onClick={onClose}
@@ -188,7 +188,7 @@ export default function AIJobAnalysis({
             </svg>
           </button>
         </div>
-        <div className="p-6">
+        <div className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20">
           <div className="bg-white rounded-xl shadow-lg p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Image Upload */}
@@ -217,13 +217,13 @@ export default function AIJobAnalysis({
 
               {/* Action Buttons */}
               <div className="flex gap-4">
-                <button
+                <Button
                   type="submit"
-                  disabled={loading || !selectedImage}
-                  className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white border-0 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all duration-300"
+                  disabled={loading}
                 >
-                  {loading ? "Analyzing..." : "Analyze Image"}
-                </button>
+                  {loading ? "Analyzing..." : "Analyze"}
+                </Button>
 
                 <button
                   type="button"
@@ -247,8 +247,8 @@ export default function AIJobAnalysis({
 
             {/* Analysis Result */}
             {analysis.companyName && (
-              <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-4">
+              <CardContent className="bg-gray-900 border border-gray-700 text-white">
+                <form onSubmit={handleSaveJob} className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
                     <div className="space-y-2">
                       <Label htmlFor="jobTitle">Job Title *</Label>
@@ -259,6 +259,7 @@ export default function AIJobAnalysis({
                         onChange={handleInputChange}
                         placeholder="e.g. Senior Developer"
                         required
+                        className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
                       />
                     </div>
                     <div className="space-y-2">
@@ -270,6 +271,7 @@ export default function AIJobAnalysis({
                         onChange={handleInputChange}
                         placeholder="e.g. Google Inc."
                         required
+                        className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
                       />
                     </div>
                   </div>
@@ -283,6 +285,7 @@ export default function AIJobAnalysis({
                       onChange={handleInputChange}
                       placeholder="e.g. San Francisco, CA"
                       required
+                      className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
                     />
                   </div>
 
@@ -296,6 +299,7 @@ export default function AIJobAnalysis({
                         name="applyStartDate"
                         type="date"
                         required
+                        className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
                       />
                     </div>
                     <div className="space-y-2">
@@ -307,6 +311,7 @@ export default function AIJobAnalysis({
                         name="applyEndDate"
                         type="date"
                         required
+                        className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
                       />
                     </div>
                   </div>
@@ -314,7 +319,12 @@ export default function AIJobAnalysis({
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="examDate">Exam Date</Label>
-                      <Input id="examDate" name="examDate" type="date" />
+                      <Input
+                        id="examDate"
+                        name="examDate"
+                        type="date"
+                        className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
+                      />
                     </div>
                   </div>
 
@@ -323,7 +333,7 @@ export default function AIJobAnalysis({
                     <textarea
                       id="note"
                       name="note"
-                      className="w-full p-2 border rounded-md min-h-[100px]"
+                      className="w-full bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
                       placeholder="Any additional notes about this job..."
                     />
                   </div>

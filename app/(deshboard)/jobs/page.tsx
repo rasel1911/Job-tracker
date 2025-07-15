@@ -28,21 +28,23 @@ export default function JobsPage() {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 min-h-screen bg-gray-900 text-white p-4">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Jobs</h1>
-          <p className="text-gray-600">Manage your job applications</p>
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-1">
+            Jobs
+          </h1>
+          <p className="text-gray-400">Manage your job applications</p>
         </div>
         <div className="flex gap-2">
           <Button
-            variant={selectedType === "Private" ? "default" : "outline"}
+            className={`bg-gradient-to-r from-cyan-500 to-purple-500 text-white border-0 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all duration-300 ${selectedType === "Private" ? "" : "bg-opacity-70"}`}
             onClick={() => setSelectedType("Private")}
           >
             <FilterIcon /> Private Jobs
           </Button>
           <Button
-            variant={selectedType === "Government" ? "default" : "outline"}
+            className={`bg-gradient-to-r from-pink-500 to-cyan-500 text-white border-0 shadow-lg shadow-pink-500/25 hover:shadow-pink-500/40 transition-all duration-300 ${selectedType === "Government" ? "" : "bg-opacity-70"}`}
             onClick={() => setSelectedType("Government")}
           >
             <FilterIcon /> Government Jobs

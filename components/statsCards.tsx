@@ -62,48 +62,56 @@ export function StatsCards({ jobType }: { jobType: "Private" | "Government" }) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-      <Card>
+      <Card className="bg-gray-800/50 border-2 border-cyan-500/30 shadow-lg shadow-cyan-500/10 hover:border-cyan-400 transition-all duration-300">
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-gray-600">
+          <CardTitle className="text-sm font-medium bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
             Total Applications
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{total}</div>
-          <p className="text-xs text-green-600">&nbsp;</p>
+          <div className="text-3xl font-bold text-cyan-400 drop-shadow-[0_0_8px_cyan]">
+            {total}
+          </div>
+          <p className="text-xs text-cyan-400">&nbsp;</p>
         </CardContent>
       </Card>
-      <Card>
+      <Card className="bg-gray-800/50 border-2 border-purple-500/30 shadow-lg shadow-purple-500/10 hover:border-purple-400 transition-all duration-300">
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-gray-600">
+          <CardTitle className="text-sm font-medium bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
             In Progress
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{inProgress}</div>
-          <p className="text-xs text-blue-600">Active applications</p>
+          <div className="text-3xl font-bold text-purple-400 drop-shadow-[0_0_8px_purple]">
+            {inProgress}
+          </div>
+          <p className="text-xs text-purple-300">Active applications</p>
         </CardContent>
       </Card>
-      <Card>
+      <Card className="bg-gray-800/50 border-2 border-pink-500/30 shadow-lg shadow-pink-500/10 hover:border-pink-400 transition-all duration-300">
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-gray-600">
+          <CardTitle className="text-sm font-medium bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
             Interviews
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{interviews}</div>
-          <p className="text-xs text-orange-600">Scheduled</p>
+          <div className="text-3xl font-bold text-pink-400 drop-shadow-[0_0_8px_pink]">
+            {interviews}
+          </div>
+          <p className="text-xs text-pink-300">Scheduled</p>
         </CardContent>
       </Card>
-      <Card>
+      <Card className="bg-gray-800/50 border-2 border-cyan-500/30 shadow-lg shadow-cyan-500/10 hover:border-cyan-400 transition-all duration-300">
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-gray-600">
+          <CardTitle className="text-sm font-medium bg-gradient-to-r from-cyan-400 to-pink-400 bg-clip-text text-transparent">
             Offers
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{offers}</div>
-          <p className="text-xs text-green-600">Received</p>
+          <div className="text-3xl font-bold text-cyan-400 drop-shadow-[0_0_8px_cyan]">
+            {offers}
+          </div>
+          <p className="text-xs text-cyan-300">Received</p>
         </CardContent>
       </Card>
     </div>
