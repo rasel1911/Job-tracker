@@ -1,10 +1,8 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { NewJobVacancy } from "@/db/schema/jobVacency.schema";
-import { processImageContent, processPDFContent } from "@/action/aiAnalysis";
-
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_AI_API_KEY!);
+import { processImageContent, processPDFContent } from "@/action/proccessFile";
+import { aiAnalysis } from "@/action/aiAnalysis";
 
 // Zod schema for the extracted data
 const ExtractedDataSchema = z.object({
@@ -79,7 +77,6 @@ export async function POST(request: NextRequest) {
         content: `data:${(file as File).type};base64,${base64}`,
       });
     }
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     const contentParts: any[] = [];
     contentParts.push(finalMessage);
     contentParts.push(EXTRACTION_PROMPT);
@@ -107,10 +104,9 @@ export async function POST(request: NextRequest) {
         }
       }
     }
-    const result = await model.generateContent(contentParts);
-    const response = await result.response;
-    const text = response.text();
-    console.log("Raw AI Response:", text);
+    const text = await aiAnalysis(contentParts);
+    //console.log("Raw AI Response:", text);
+
     const extractedData = extractStructuredData(text);
     console.log("Extracted Data:", extractedData);
     // Prepare data for database insertion

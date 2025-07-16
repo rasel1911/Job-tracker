@@ -1,17 +1,12 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
-import { processImageContent, processPDFContent } from "@/action/aiAnalysis";
-
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_AI_API_KEY!);
+import { processImageContent, processPDFContent } from "@/action/proccessFile";
+import { aiAnalysis } from "@/action/aiAnalysis";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
 
     const { files, message } = body;
-
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
     // Prepare content for Gemini API
     const contentParts: any[] = [];
 
@@ -44,11 +39,7 @@ export async function POST(request: Request) {
     }
 
     // Generate content with Gemini
-    const result = await model.generateContent(contentParts);
-    const response = await result.response;
-    const text = response.text();
-
-    console.log("Raw AI Response:", text);
+    const text = await aiAnalysis(contentParts);
 
     return NextResponse.json({
       success: true,

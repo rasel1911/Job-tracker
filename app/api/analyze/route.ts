@@ -1,8 +1,6 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_AI_API_KEY!);
+import { aiAnalysis } from "@/action/aiAnalysis";
 
 // Zod schema for the extracted data
 const ExtractedDataSchema = z.object({
@@ -103,10 +101,6 @@ export async function POST(request: NextRequest) {
     // Prepare the image part for Gemini
     const imagePart = fileToGenerativePart(buffer, file.type);
 
-    // Get the generative model
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
-    let result;
     const enhancedPrompt =
       EXTRACTION_PROMPT + (message || "What's in this image?");
 
@@ -114,10 +108,9 @@ export async function POST(request: NextRequest) {
     //const prompt = `${message}\n\nPlease analyze the provided image and respond according to the message above.`;
 
     // Generate content with both text and image
-    result = await model.generateContent([enhancedPrompt, imagePart]);
-    const response = await result.response;
-    const text = response.text();
+    const text = await aiAnalysis([enhancedPrompt, imagePart]);
     console.log("output", text);
+
     const extractedData = extractStructuredData(text);
     console.log("Extracted Data:", extractedData);
     console.log("Extracted company name:", extractedData.companyName);

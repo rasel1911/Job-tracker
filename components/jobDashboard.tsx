@@ -216,7 +216,7 @@ export default function JobDashboard() {
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900">
+                    <h3 className="text-xl font-semibold text-white">
                       {orgData.orgName}
                     </h3>
                     <p className="text-gray-500">
