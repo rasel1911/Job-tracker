@@ -1,0 +1,1 @@
+ALTER TABLE "private_jobs" ALTER COLUMN "status" DROP DEFAULT;

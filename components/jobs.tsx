@@ -23,6 +23,7 @@ interface Job {
   applyEnd: string;
   hasCircular: string;
   hasAdmitCard: string;
+  notes: string;
 }
 
 interface UserFile {
@@ -77,6 +78,7 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
               .split("T")[0],
           hasCircular: job.circularFile,
           hasAdmitCard: job.admitCardFile,
+          notes: job.note || "no note found",
         }));
 
         setJobs(formattedJobs);
@@ -113,7 +115,7 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
 
   if (loading) {
     return (
-      <Card>
+      <Card className="bg-gray-900">
         <CardContent className="flex items-center justify-center p-4">
           <Loading />
         </CardContent>
@@ -123,7 +125,7 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
 
   if (error) {
     return (
-      <Card>
+      <Card className="bg-gray-900">
         <CardContent className="p-6">
           <div className="text-center text-red-500">
             <p>{error}</p>
@@ -135,7 +137,7 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
 
   if (jobs.length === 0) {
     return (
-      <Card>
+      <Card className="bg-gray-900">
         <CardContent className="p-6">
           <div className="text-center text-gray-500">
             <p>No jobs found. Add a new job to get started.</p>
@@ -160,9 +162,7 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
             <p className="text-cyan-300 text-sm mb-3">{job.location}</p>
 
             <div className="flex items-center gap-4 text-sm text-cyan-400 mb-3">
-              <span>
-                Apply: {job.applyStart} to {job.applyEnd}
-              </span>
+              <span>Apply: {job.applyStart}</span>
             </div>
 
             <div className="flex items-center gap-2 mb-3">
@@ -183,7 +183,7 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
                 </button>
               )}
               <button
-                onClick={() => setNotes("Notes")}
+                onClick={() => setNotes(job.notes)}
                 className="px-2 py-1 bg-gradient-to-r from-cyan-500 to-purple-500 text-white text-xs rounded shadow-md hover:from-cyan-600 hover:to-purple-600 transition-all duration-300"
               >
                 📄 Notes
@@ -194,16 +194,17 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
           <div className="text-right">
             <span
               className={`px-3 py-1 rounded-full text-sm shadow-md transition-all duration-300
-    ${
-      job.status === "Applied"
-        ? "bg-gradient-to-r from-cyan-500 to-purple-500 text-white"
-        : job.status === "Interview"
-          ? "bg-gradient-to-r from-orange-400 to-pink-500 text-white"
-          : job.status === "Offer"
-            ? "bg-gradient-to-r from-green-400 to-cyan-500 text-white"
-            : "bg-gradient-to-r from-red-500 to-pink-500 text-white"
-    }
-  `}
+                ${
+                  job.status === "applied"
+                    ? "bg-gradient-to-r from-cyan-500 to-purple-500 text-white"
+                    : job.status === "in progress"
+                      ? "bg-gradient-to-r from-blue-500 to-indigo-500 text-white"
+                      : job.status === "interview"
+                        ? "bg-gradient-to-r from-orange-400 to-pink-500 text-white"
+                        : job.status === "offer"
+                          ? "bg-gradient-to-r from-green-500 to-emerald-500 text-white"
+                          : "bg-gradient-to-r from-red-500 to-pink-500 text-white"
+                }`}
             >
               {job.status}
             </span>
@@ -428,7 +429,7 @@ export function Jobs({ type }: { type: "Private" | "Government" }) {
           <DialogHeader>
             <DialogTitle>Notes</DialogTitle>
           </DialogHeader>
-          <NotesBox />
+          <NotesBox notes={notes || ""} setNotes={setNotes} />
         </DialogContent>
       </Dialog>
       <Dialog

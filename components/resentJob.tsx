@@ -98,9 +98,7 @@ export default function RecentJob({
                 className="flex items-center justify-between p-4 border border-gray-700 rounded-lg bg-gray-900/60 shadow shadow-cyan-500/10"
               >
                 <div>
-                  <h3 className="font-semibold text-cyan-400 drop-shadow-[0_0_6px_cyan]">
-                    {job.title}
-                  </h3>
+                  <h3 className="font-semibold text-cyan-400">{job.title}</h3>
                   <p className="text-sm text-purple-300">
                     {job.company} • {job.location}
                   </p>

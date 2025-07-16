@@ -52,9 +52,9 @@ export function StatsCards({ jobType }: { jobType: "Private" | "Government" }) {
 
   const filtered = jobs.filter((j) => j.type === jobType);
   const total = filtered.length;
-  const inProgress = filtered.filter((j) => j.status === "Applied").length;
-  const interviews = filtered.filter((j) => j.status === "Interview").length;
-  const offers = filtered.filter((j) => j.status === "Offer").length;
+  const inProgress = filtered.filter((j) => j.status === "in progress").length;
+  const interviews = filtered.filter((j) => j.status === "interview").length;
+  const offers = filtered.filter((j) => j.status === "offer").length;
 
   if (loading) {
     return <div>Loading...</div>;
@@ -69,9 +69,7 @@ export function StatsCards({ jobType }: { jobType: "Private" | "Government" }) {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-3xl font-bold text-cyan-400 drop-shadow-[0_0_8px_cyan]">
-            {total}
-          </div>
+          <div className="text-3xl font-bold text-cyan-400">{total}</div>
           <p className="text-xs text-cyan-400">&nbsp;</p>
         </CardContent>
       </Card>
@@ -82,9 +80,7 @@ export function StatsCards({ jobType }: { jobType: "Private" | "Government" }) {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-3xl font-bold text-purple-400 drop-shadow-[0_0_8px_purple]">
-            {inProgress}
-          </div>
+          <div className="text-3xl font-bold text-purple-400">{inProgress}</div>
           <p className="text-xs text-purple-300">Active applications</p>
         </CardContent>
       </Card>
@@ -95,9 +91,7 @@ export function StatsCards({ jobType }: { jobType: "Private" | "Government" }) {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-3xl font-bold text-pink-400 drop-shadow-[0_0_8px_pink]">
-            {interviews}
-          </div>
+          <div className="text-3xl font-bold text-pink-400">{interviews}</div>
           <p className="text-xs text-pink-300">Scheduled</p>
         </CardContent>
       </Card>
@@ -108,9 +102,7 @@ export function StatsCards({ jobType }: { jobType: "Private" | "Government" }) {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-3xl font-bold text-cyan-400 drop-shadow-[0_0_8px_cyan]">
-            {offers}
-          </div>
+          <div className="text-3xl font-bold text-cyan-400">{offers}</div>
           <p className="text-xs text-cyan-300">Received</p>
         </CardContent>
       </Card>

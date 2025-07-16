@@ -162,8 +162,8 @@ export default function AIJobAnalysis({
   };
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white p-4 border-b border-gray-200 flex justify-between items-center">
+      <div className="bg-gray-900 rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+        <div className="sticky top-0 bg-gray-900 p-4 border-b border-gray-200 flex justify-between items-center">
           <h2 className="text-2xl font-bold mb-2 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
             AI Job Analysis
           </h2>
@@ -189,11 +189,11 @@ export default function AIJobAnalysis({
           </button>
         </div>
         <div className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20">
-          <div className="bg-white rounded-xl shadow-lg p-8">
+          <div className="bg-gray-900 rounded-xl shadow-lg p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Image Upload */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-white mb-2">
                   Upload Image
                 </label>
                 <input
@@ -364,7 +364,7 @@ export default function AIJobAnalysis({
           </div>
 
           {/* Instructions */}
-          <div className="mt-6 bg-blue-50 rounded-lg p-6">
+          <div className="mt-6 bg-gray-900 rounded-lg p-6">
             <h3 className="text-lg font-semibold text-blue-800 mb-3">
               How to use:
             </h3>

@@ -12,14 +12,12 @@ import { sql } from "drizzle-orm";
 export const jobVacancies = pgTable("job_vacancies", {
   id: uuid("id")
     .primaryKey()
-    .default(sql`gen_random_uuid()`)
-    .notNull()
-    .unique(),
+    .default(sql`gen_random_uuid()`),
   jobId: integer("job_id").notNull().unique(),
   orgName: varchar("org_name", { length: 255 }).notNull(),
   orgId: integer("org_id"),
-  jobTitle: varchar("job_title", { length: 255 }).notNull(),
-  jobTitleBn: varchar("job_title_bn", { length: 255 }).notNull(),
+  jobTitle: varchar("job_title", { length: 255 }),
+  jobTitleBn: varchar("job_title_bn", { length: 255 }),
   jobVacancy: text("job_vacancy"),
   applyLastDate: timestamp("apply_last_date"),
   applyStartDate: timestamp("apply_start_date"),

@@ -46,17 +46,29 @@ export default function AddJobForm({
       }
     }
 
-    // Prepare payload
-    data.forEach((value, key) => {
-      if (key !== "circularFile") {
+    // Prepare payload to match privateJobs.schema.ts
+    const allowedFields = [
+      "jobTitle",
+      "companyName",
+      "location",
+      "applyEndDate",
+      "circularFile",
+      "status",
+      "examDate",
+      "note",
+    ];
+    allowedFields.forEach((key) => {
+      const value = data.get(key);
+      if (value !== null && value !== "") {
         payload[key] = value;
       }
     });
-
     // Add the file URL to payload if available
     if (circularFileUrl) {
       payload.circularFile = circularFileUrl;
     }
+    // Optionally add userId if available as prop (uncomment if needed)
+    // if (props.userId) payload.userId = props.userId;
 
     try {
       const res = await fetch("/api/add-jobs", {
@@ -79,7 +91,7 @@ export default function AddJobForm({
 
   if (type === "Private") {
     return (
-      <Card>
+      <Card className="bg-gray-900 text-white">
         <CardHeader>
           <CardTitle className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
             Add New Private Job
@@ -114,37 +126,25 @@ export default function AddJobForm({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="location">Location *</Label>
+              <Label htmlFor="location">Location</Label>
               <Input
                 className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
                 id="location"
                 name="location"
                 placeholder="e.g. San Francisco, CA"
-                required
               />
+              <span className="text-xs text-gray-500">(Optional)</span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="applyStartDate">Application Start Date *</Label>
-                <Input
-                  className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
-                  id="applyStartDate"
-                  name="applyStartDate"
-                  type="date"
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="applyEndDate">Application End Date *</Label>
-                <Input
-                  className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
-                  id="applyEndDate"
-                  name="applyEndDate"
-                  type="date"
-                  required
-                />
-              </div>
+            <div className="space-y-2">
+              <Label htmlFor="applyEndDate">Application End Date *</Label>
+              <Input
+                className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20"
+                id="applyEndDate"
+                name="applyEndDate"
+                type="date"
+                required
+              />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -174,6 +174,22 @@ export default function AddJobForm({
                   )}
                 </div>
               </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="status">Status *</Label>
+              <select
+                id="status"
+                name="status"
+                required
+                className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20 rounded-md px-3 py-2"
+                defaultValue="applied"
+              >
+                <option value="applied">Applied</option>
+                <option value="in progress">In Progress</option>
+                <option value="interview">Interview</option>
+                <option value="offer">Offer</option>
+              </select>
             </div>
 
             <div className="space-y-2">
@@ -209,7 +225,7 @@ export default function AddJobForm({
     );
   } else {
     return (
-      <Card>
+      <Card className="bg-gray-900 text-white">
         <CardHeader>
           <CardTitle>Add New Government Job</CardTitle>
           <CardDescription>Fill in the government job details</CardDescription>

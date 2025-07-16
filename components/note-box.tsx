@@ -16,10 +16,13 @@ import { Label } from "@/components/ui/label";
 import { Save, FileText } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-export default function NotesBox() {
-  const [notes, setNotes] = useState(
-    "my name is rasel, i am a Electrical Engineer",
-  );
+export default function NotesBox({
+  notes,
+  setNotes,
+}: {
+  notes: string;
+  setNotes: (notes: string) => void;
+}) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
@@ -45,7 +48,7 @@ export default function NotesBox() {
 
     toast({
       title: "Notes saved!",
-      description: "Your notes have been successfully saved.",
+      description: "Your notes haveNote been successfully saved.",
     });
 
     setIsSubmitting(false);
